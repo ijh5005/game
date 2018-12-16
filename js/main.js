@@ -1,1245 +1,17 @@
 'use strict';
-const gameBoardMapper = {
-  // three by three board
-  //  0   1   2
-  //  3   4   5
-  //  6   7   8
-  nine: { // 3 by 3 gameboard
-    box0: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box1: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 2,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 0,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box2: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        borders: {
-          top: null,
-          right: null,
-          bottom: null,
-          left: null
-        },
-        topBox: null,
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 5,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box3: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 0,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 6,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box4: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 5,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box5: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 2,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box6: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: null
-      }
-    },
-    box7: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 6,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box8: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 5,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        }
-      }
-    }
-  },
 
-  // six by six board
-  //  0   1   2   3   4   5
-  //  6   7   8   9   10  11
-  //  12  13  14  15  16  17
-  //  18  19  20  21  22  23
-  //  24  25  26  27  28  29
-  //  30  31  32  33  34  35
-  thirtysix: { // 6 by 6 gameboard
-    box0: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 6,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box1: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 2,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 0,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box2: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box3: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 9,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 2,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box4: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: {
-          boxNumber: 5,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 10,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box5: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: null,
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 11,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box6: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 0,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 12,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box7: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 1,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 13,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 6,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box8: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 2,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 9,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 14,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box9: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 3,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 10,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 15,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box10: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 4,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 11,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 16,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 9,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box11: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 5,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 17,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 10,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box12: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 6,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 13,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 18,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box13: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 7,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 14,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 19,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 12,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box14: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 8,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 15,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 20,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 13,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box15: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 9,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 16,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 21,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 14,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box16: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 10,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 17,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 22,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 15,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box17: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 11,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 23,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 16,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box18: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 12,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 19,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 24,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box19: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 13,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 20,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 25,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 18,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box20: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 14,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 21,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 26,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 19,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box21: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 15,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 22,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 27,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 20,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box22: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 16,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 23,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 28,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 21,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box23: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 17,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 29,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 22,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box24: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 18,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 25,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 30,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: null
-      }
-    },
-    box25: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 19,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 26,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 31,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 24,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box26: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 20,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 27,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 32,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 25,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box27: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 21,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 28,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 33,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 26,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box28: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 22,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 29,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: {
-          boxNumber: 34,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 27,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box29: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 23,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: {
-          boxNumber: 35,
-          isConnected: true,
-          borders: null
-        },
-        leftBox: {
-          boxNumber: 28,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box30: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 24,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 31,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: null
-      }
-    },
-    box31: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 25,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 32,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 30,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box32: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 26,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 33,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 31,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box33: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 27,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 34,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 32,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box34: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 28,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: {
-          boxNumber: 35,
-          isConnected: true,
-          borders: null
-        },
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 33,
-          isConnected: true,
-          borders: null
-        }
-      }
-    },
-    box35: {
-      borders: {
-        top: null,
-        right: null,
-        bottom: null,
-        left: null
-      },
-      surroundingBoxes: {
-        topBox: {
-          boxNumber: 29,
-          isConnected: true,
-          borders: null
-        },
-        rightBox: null,
-        bottomBox: null,
-        leftBox: {
-          boxNumber: 34,
-          isConnected: true,
-          borders: null
-        }
-      }
-    }
-  }
-}
-
-const complementBoarder = {
+const complementBorder = {
   top: "bottom",
   right: "left",
   bottom: "top",
   left: "right"
 }
+
 const totalPointsToScore = {
   nine: 9,
   thirtysix: 36
 }
+
 let playerOneScore = 0;
 let playerTwoScore = 0;
 const noBorders = [];
@@ -1264,22 +36,19 @@ app.controller('ctrl', ['$scope', '$rootScope', '$interval', '$timeout', 'task',
   }
 }]);
 
-app.service('task', function($rootScope, $interval, $timeout) {
+app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, boxInfo) {
   this.populateBoard = () => { // populate the gameboard into the UI
     document.getElementById("board").innerHTML = ""; // clear the board before rendering it
-    this.getGameBoardKeys().forEach((data) => {
-      const div = document.createElement("div");
-      div.classList.add("box");
-      div.classList.add($rootScope.gameBoard[data].whoScored);
-      div.setAttribute("data", data);
-      this.addBorders(div, data); // add any border classes to the box
-      div.addEventListener("click", (e) => { // add a click event to the box click on borders
-        if (!$rootScope.isFirstPlayerTurn && $rootScope.computerCanMove) return null // prevent out of turn clicks
-        this.highlightClickedBorder(e.offsetX, e.offsetY, data, board);
+    for (let box in $rootScope.gameBoard) {
+      const gridBox = document.createElement("div");
+      gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
+      gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
+        if (!$rootScope.isFirstPlayerTurn) return null; // prevent out of turn clicks
+        this.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
       });
       // this.buildCube(div);
-      $("#board").append(div); // add the box to the game board
-    })
+      $("#board").append(gridBox); // add the box to the game board
+    }
     this.setScores();
     this.adjustBorderCountArrays(); // add boxes with one border to the oneBorderBoxes array, etc...
   };
@@ -1304,12 +73,6 @@ app.service('task', function($rootScope, $interval, $timeout) {
     document.getElementById("playerOneScore").innerText = playerOneScore;
     document.getElementById("playerTwoScore").innerText = playerTwoScore;
   }
-  this.addBorders = (element, box) => {
-    if ($rootScope.gameBoard[box].borders.top) element.classList.add("borderTop");
-    if ($rootScope.gameBoard[box].borders.right) element.classList.add("borderRight");
-    if ($rootScope.gameBoard[box].borders.bottom) element.classList.add("borderBottom");
-    if ($rootScope.gameBoard[box].borders.left) element.classList.add("borderLeft");
-  }
   this.highlightClickedBorder = (offsetX, offsetY, boxNumber, board) => {
     const height = $(".box").height();
     const upperOutOfBoundsNumber = height - 15;
@@ -1323,30 +86,52 @@ app.service('task', function($rootScope, $interval, $timeout) {
     }
   }
   this.clickOnBorder = (boxNumber, lineClicked) => {
-
+    // if (enterVirtualEnviroment) {
+    //   debugger
+    //   const gameBoard = {
+    //     $rootScope.gameBoard[boxNumber]
+    //   }
+    //   creat obj
+    //   [{
+    //     boxClickArray: [...],
+    //     numberOfBoxesGiven: [...].length,
+    //     hasResetBoxesGiven: false
+    //   }]
+    //   choose line to click
+    //   make of copy of gameBoard
+    //   fill in all boxes in numberOfBoxesGiven
+    //   if there are 3 line boxes created
+    //     change numberOfBoxesGiven to numberOfBoxesGiven + lengthOfPathArrayConnected
+    //     set hasResetBoxesGiven to true
+    //   else
+    //     do the boxes click
+    //   }]
+    // }
     $rootScope.gameBoard[boxNumber].borders[lineClicked] = true;
-
     this.highlightBoxIfScored(boxNumber);
     let adjacentBox = null;
     let adjBoxNumber = null;
     const hasAdjacentBox = ($rootScope.gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== null);
     if (hasAdjacentBox) {
       adjacentBox = $rootScope.gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`].boxNumber;
-      $rootScope.gameBoard[`box${adjacentBox}`].borders[complementBoarder[`${lineClicked}`]] = true;
+      $rootScope.gameBoard[`box${adjacentBox}`].borders[complementBorder[`${lineClicked}`]] = true;
       this.highlightBoxIfScored(`box${adjacentBox}`);
       adjBoxNumber = `box${adjacentBox}`;
     }
-
-    const closeTheBoxConnectionParams = [boxNumber, adjBoxNumber, lineClicked, complementBoarder[`${lineClicked}`]]
-    this.closeTheBoxConnection(closeTheBoxConnectionParams);
-    const scoreParams = [boxNumber, (adjacentBox !== null) ? `box${adjacentBox}` : null];
+    this.closeTheBoxConnection({
+      boxNumber,
+      adjacentBox: adjBoxNumber,
+      boxNumberClosedBorder: lineClicked,
+      adjacentBoxClosedBorder: complementBorder[`${lineClicked}`]
+    });
+    const scoreParams = [boxNumber, `box${adjacentBox}`].filter(data => data !== "boxnull");
     this.adjustScore(...scoreParams); // adjust the score
     this.setTurnPlayer(); // set the turn player
     this.isGameOver();
     this.populateBoard(board);
   }
   this.highlightBoxIfScored = (boxNumber) => {
-    if (this.getBorderCount(this.getBorderObj(boxNumber)) === 4) {
+    if (boxInfo.getBorderCount(gameboardMapper.getBorderObj(boxNumber)) === 4) {
       $rootScope.gameBoard[boxNumber].whoScored = $rootScope.isFirstPlayerTurn ? "firstPlayerScored" : "secondPlayerScored";
     }
   }
@@ -1361,47 +146,37 @@ app.service('task', function($rootScope, $interval, $timeout) {
     return (inUpperOutOfBounds || inLowerOutOfBounds) && !hasClickedACorner;
   }
   this.getLineClicked = (offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber) => {
-    let lineClick = null;
-    if (offsetX > upperOutOfBoundsNumber) {
-      lineClick = "right";
-    } else if (offsetX < lowerOutOfBoundsNumber) {
-      lineClick = "left";
-    } else if (offsetY > upperOutOfBoundsNumber) {
-      lineClick = "bottom";
-    } else if (offsetY < lowerOutOfBoundsNumber) {
-      lineClick = "top";
-    }
-    return lineClick;
+    if (offsetX > upperOutOfBoundsNumber) return "right";
+    if (offsetX < lowerOutOfBoundsNumber) return "left";
+    if (offsetY > upperOutOfBoundsNumber) return "bottom";
+    if (offsetY < lowerOutOfBoundsNumber) return "top";
   }
   this.closeTheBoxConnection = (closeTheBoxConnectionParams) => {
-    const boxNumber = closeTheBoxConnectionParams[0];
-    const adjacentBox = closeTheBoxConnectionParams[1];
-    const boxNumberClosedBorder = closeTheBoxConnectionParams[2];
-    const adjacentBoxClosedBorder = closeTheBoxConnectionParams[3];
+    const {
+      boxNumber,
+      adjacentBox,
+      boxNumberClosedBorder,
+      adjacentBoxClosedBorder
+    } = closeTheBoxConnectionParams;
     if ($rootScope.gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`]) $rootScope.gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`].isConnected = false;
     if (adjacentBox && $rootScope.gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`]) $rootScope.gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`].isConnected = false;
   }
   this.adjustScore = (boxNumber, adjacentBoxNumber) => {
     const score = (box) => {
-      if (this.hasScored(box)) { // check to see if player scored a point
-        ($rootScope.isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
-        $rootScope.hasScored = true;
-        $rootScope.totalPointsScored++;
-      }
+      if (!this.hasScored(box)) return null; // check to see if player scored a point
+      ($rootScope.isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
+      $rootScope.hasScored = true;
+      $rootScope.totalPointsScored++;
     }
     if (boxNumber) score(boxNumber);
     if (adjacentBoxNumber) score(adjacentBoxNumber);
   }
   this.hasScored = (boxNumber) => {
-    let hasScored = false;
     const isTopClicked = $rootScope.gameBoard[boxNumber].borders.top;
     const isRightClicked = $rootScope.gameBoard[boxNumber].borders.right;
     const isBottomClicked = $rootScope.gameBoard[boxNumber].borders.bottom;
     const isLeftClicked = $rootScope.gameBoard[boxNumber].borders.left;
-    if (isTopClicked && isRightClicked && isBottomClicked && isLeftClicked) {
-      hasScored = true;
-    }
-    return hasScored;
+    return (isTopClicked && isRightClicked && isBottomClicked && isLeftClicked);
   }
   this.setTurnPlayer = () => {
     $rootScope.isFirstPlayerTurn = ($rootScope.hasScored) ? $rootScope.isFirstPlayerTurn : !$rootScope.isFirstPlayerTurn;
@@ -1411,24 +186,17 @@ app.service('task', function($rootScope, $interval, $timeout) {
     }
   }
   this.isGameOver = () => {
-    if ($rootScope.totalPointsScored === totalPointsToScore[$rootScope.gameBoardSize]) {
-      console.log("game complete")
-    }
+    if ($rootScope.totalPointsScored === totalPointsToScore[$rootScope.gameBoardSize]) console.log("game complete")
   }
   this.adjustBorderCountArrays = () => {
     this.clearBorderArrays();
-    this.getGameBoardKeys().forEach(data => {
-      const borderCount = this.getBorderCount($rootScope.gameBoard[data].borders);
-      if (borderCount === 0) {
-        noBorders.push(data);
-      } else if (borderCount === 1) {
-        oneBorderBoxes.push(data);
-      } else if (borderCount === 2) {
-        twoBorderBoxes.push(data)
-      } else if (borderCount === 3) {
-        threeBorderBoxes.push(data);
-      }
-    })
+    for (let box in $rootScope.gameBoard) {
+      const borderCount = boxInfo.getBorderCount($rootScope.gameBoard[box].borders);
+      if (borderCount === 0) noBorders.push(box);
+      else if (borderCount === 1) oneBorderBoxes.push(box);
+      else if (borderCount === 2) twoBorderBoxes.push(box)
+      else if (borderCount === 3) threeBorderBoxes.push(box);
+    }
   }
   this.clearBorderArrays = () => {
     noBorders.length = 0;
@@ -1444,56 +212,61 @@ app.service('task', function($rootScope, $interval, $timeout) {
     }, 100);
   }
   this.makeMoveInSafeBox = () => { // make a computer move that doesn't allow opponent the score
-    if (threeBorderBoxes.length !== 0) {
-      this.getAFreeBox();
-    } else if (noBorders.length !== 0) {
-      this.clickInANoBorderBox();
-    } else if (oneBorderBoxes.length !== 0) {
-      this.clickInAOneBorderBox();
-    } else if (twoBorderBoxes.length !== 0) {
-      this.clickInATwoBorderBox();
-    }
+    if (threeBorderBoxes.length !== 0) this.getAFreeBox();
+    else if (noBorders.length !== 0) this.clickInANoBorderBox();
+    else if (oneBorderBoxes.length !== 0) this.clickInAOneBorderBox();
+    else if (twoBorderBoxes.length !== 0) this.clickInATwoBorderBox();
     this.populateBoard();
   }
   this.getAFreeBox = () => {
     const clickBox = this.getRandomIndexInArray(threeBorderBoxes);
-    Object.keys(this.getGameBoardClickBox(clickBox).borders).forEach(data => {
-      if (!this.getGameBoardClickBox(clickBox).borders[data]) {
+    Object.keys(gameboardMapper.getGameBoardClickBox(clickBox).borders).forEach(data => {
+      if (!gameboardMapper.getGameBoardClickBox(clickBox).borders[data]) {
         this.clickOnBorder(clickBox, data);
       }
     })
   }
   this.clickInANoBorderBox = () => {
     let keepGoing = true;
-    let foundMatch = false;
     while (keepGoing) {
+      // choose a randon box in the array containing box with no border
       const clickBox = this.getRandomIndexInArray(noBorders);
+      //remove that box from that array to avoid checking it multiple times
       noBorders.splice(noBorders.indexOf(clickBox), 1);
+      // get the boxes around it that only has one or less borders already selected
       const oneOrLessBorderSurroundingBoxes = this.getLessThanOneBorderNonConnectedSurroundingBoxes(clickBox);
+      // choose a random box of the potential boxes to click
       const selectedBox = this.getRandomIndexInArray(oneOrLessBorderSurroundingBoxes);
+      // cache the line between the two boxes to use when clicking
       const lineBetweenBoxes = this.getLineBetweenBoxes(clickBox, selectedBox);
+      // is the box on the edge of the gameboard and has no adjcent box
       const edgeBox = this.edgeBox(clickBox);
-      if (edgeBox.hasEdgeBox) { // if the box is an edge box you can click the edge as a safe move
+      // if the box is an edge box you can click the edge as a safe move
+      if (edgeBox.hasEdgeBox) {
         keepGoing = false;
-        foundMatch = true;
         this.clickOnBorder(clickBox, edgeBox.clickSide);
         break;
       }
+      // if the noBorders array is empty all avaible chooses are not safe to click
       if (noBorders.length === 0) {
         keepGoing = false;
       }
+      // if we found a safe box to click move the move
       if (selectedBox && lineBetweenBoxes) {
         keepGoing = false;
-        foundMatch = true;
         const line = lineBetweenBoxes.replace("Box", "");
         this.clickOnBorder(clickBox, line);
+      } else {
+        // if not, rethink what kind of box we want to potentially click
+        this.makeMoveInSafeBox();
       }
     }
-    return foundMatch;
   }
   this.clickInAOneBorderBox = () => {
     const safeClickBoxWithSide = [];
-    oneBorderBoxes.forEach(box => {
+    const oneBorder = [...oneBorderBoxes];
+    oneBorder.forEach(box => {
+      oneBorderBoxes.splice(oneBorderBoxes.indexOf(box), 1);
       const edgeBox = this.edgeBox(box);
       if (edgeBox.hasEdgeBox) { // this takes care of the corner cases by clicked its empty side
         safeClickBoxWithSide.push({
@@ -1517,143 +290,75 @@ app.service('task', function($rootScope, $interval, $timeout) {
       const clickBoxObj = this.getRandomIndexInArray(safeClickBoxWithSide);
       this.clickOnBorder(clickBoxObj.clickBox, clickBoxObj.clickSide);
     } else {
-      this.clickInATwoBorderBox();
+      this.makeMoveInSafeBox();
     }
   }
   this.clickInATwoBorderBox = () => {
-    let multiScoreBoxes = []; // contains all of the connected boxes that score more than once in one turn
-    let allSearchedBoxes = [];
-    this.getGameBoardKeys().forEach(boxNumber => {
-      if (!allSearchedBoxes.includes(boxNumber.replace("Box", "")) && (this.getBorderCount(this.getBorderObj(boxNumber)) !== 4)) {
-        let multiScoreGroup = [];
-        const searchedBoxes = [];
-        multiScoreGroup.push(boxNumber);
-        let keepGoing = true;
-        while (keepGoing) {
-          multiScoreGroup = this.removeDoublesFromArray(multiScoreGroup);
-          let boxToSearchAround = this.getNextBoxToInspect(multiScoreGroup, searchedBoxes);
-
-          // if (boxToSearchAround.boxNumber) allSearchedBoxes.push(boxToSearchAround.boxNumber.replace("Box", ""));
-          if (boxToSearchAround.continueSearch) {
-            searchedBoxes.push(boxToSearchAround.boxNumber);
-            const surroundingBoxes = this.getSurroundingBoxes(boxToSearchAround.boxNumber);
-            surroundingBoxes.forEach(adjBoxNumber => {
-              allSearchedBoxes.push(adjBoxNumber);
-              const isConnected = this.isAdjacentBoxesConnected(boxToSearchAround.boxNumber, `box${adjBoxNumber}`).isConnected;
-              const borderCount = this.getBorderCount(this.getBorderObj(`box${adjBoxNumber}`));
-              if (isConnected && (borderCount === 2)) {
-                multiScoreGroup.push(`box${adjBoxNumber}`);
-              }
-            })
-          } else {
-            multiScoreBoxes.push(multiScoreGroup);
-            keepGoing = false;
-          }
-        }
-      }
-    })
-    multiScoreBoxes = this.removeCompleteBoxes(multiScoreBoxes);
-    this.combineConnections(multiScoreBoxes);
-  }
-  this.removeCompleteBoxes = (multiScoreBoxes) => {
-    const replacementArray = [];
-    multiScoreBoxes.forEach(data => {
-      if (data.length === 1) {
-        if (this.getBorderCount(this.getBorderObj(data[0])) !== 4) {
-          replacementArray.push(data);
-        }
-      } else {
-        replacementArray.push(data);
-      }
-    })
-    return replacementArray;
-  }
-  this.combineConnections = (multiScoreBoxes) => {
+    // all possible connected box combinations
+    const connectedBoxCombinations = [];
+    // inspected boxes
+    const inspectedBoxes = [];
+    let allConnectedBoxes = [];
+    // filter for two line boxes
+    const twoLineBoxes = gameboardMapper.getGameBoardKeys().filter(boxNumber => boxInfo.getBorderCount(gameboardMapper.getBorderObj(boxNumber)) === 2);
+    // stops the while loop
     let keepGoing = true;
-    const multiScoreBoxePaths = [];
+    // number of boxes inpecting
+    const numberOfBoxesInspecting = twoLineBoxes.length;
     while (keepGoing) {
-      if (multiScoreBoxes.length !== 0) {
-        const firstIndex = multiScoreBoxes[0];
-        let fullPath = [...firstIndex];
-        multiScoreBoxes.splice(0, 1);
-        multiScoreBoxes.forEach((data, index) => {
-          if (this.isSomeFromArrayInArray(firstIndex, data)) {
-            multiScoreBoxes.splice(index, 1);
-            fullPath = [...fullPath, ...data];
-          }
+      let calledFunction = false;
+      // cache inspecting box
+      const inspectingBox = twoLineBoxes[0];
+      const recordConnectedBoxes = (boxNumber) => {
+        // push into allConnectedBoxes and inspectedBoxes
+        allConnectedBoxes.push(boxNumber);
+        inspectedBoxes.push(boxNumber);
+        // remove it from the uninspected
+        twoLineBoxes.splice(twoLineBoxes.indexOf(boxNumber), 1);
+        // get the connected boxes
+        const surroundingBoxes = this.getSurroundingBoxes(boxNumber);
+        // filter for connected boxes
+        const connectedBoxes = surroundingBoxes.filter(box => this.isAdjacentBoxesConnected(`box${box}`, boxNumber).isConnected);
+        // filter out for 2 line boxes
+        const filterBoxesForTwoLineConnectedBoxes = connectedBoxes.filter(data => twoLineBoxes.includes(`box${data}`)).map(box => `box${box}`);
+        filterBoxesForTwoLineConnectedBoxes.forEach(box => {
+          if (!allConnectedBoxes.includes(box)) recordConnectedBoxes(box);
         })
-        multiScoreBoxePaths.push(this.removeDoublesFromArray(fullPath));
-      } else {
-        keepGoing = false;
       }
+      if (!calledFunction) {
+        calledFunction = true;
+        recordConnectedBoxes(inspectingBox);
+      }
+      connectedBoxCombinations.push([...allConnectedBoxes])
+      allConnectedBoxes.length = 0;
+      // stop the while loop once all twoLineBoxes are inspected
+      if (inspectedBoxes.length === numberOfBoxesInspecting) keepGoing = false;
     }
-    this.chooseBoxToClickInEndGame(multiScoreBoxePaths);
+    // choose a box to click
+    this.chooseBoxToClickInEndGame(connectedBoxCombinations);
   }
   this.chooseBoxToClickInEndGame = (multiScoreBoxePaths) => {
     const pathToClickABox = multiScoreBoxePaths.sort((a, b) => a.length - b.length);
     const boxToClick = this.getRandomIndexInArray(pathToClickABox[0]);
     let lineClick;
-    Object.keys(this.getGameBoardClickBox(boxToClick).borders).forEach(data => {
-      if (this.getGameBoardClickBox(boxToClick).borders[data] === null) {
+    Object.keys(gameboardMapper.getGameBoardClickBox(boxToClick).borders).forEach(data => {
+      if (gameboardMapper.getGameBoardClickBox(boxToClick).borders[data] === null) {
         lineClick = data;
       }
     });
+    // after picking the line, test it out to see if it gives the same amount of boxes as its array length
+    // const enterVirtualEnviroment = true;
+    // this.clickOnBorder(boxToClick, lineClick, enterVirtualEnviroment);
     this.clickOnBorder(boxToClick, lineClick);
-  }
-  this.lineToClickWithoutScoring = (pathToClickABox) => {
-    debugger
-    let found = false;
-    let box;
-    let line;
-    pathToClickABox.forEach(data => {
-      if (this.getBorderCount(this.getBorderObj(data)) === 2) {
-        const surroundingBoxes = this.getSurroundingBoxes(data);
-        surroundingBoxes.forEach(d => {
-          if (this.getBorderCount(this.getBorderObj(d)) === 2) {
-            line = this.getLineBetweenBoxes(data, d);
-            box = data;
-          }
-        })
-      }
-    })
-    return (box) ? {
-      box,
-      line
-    } : null;
-  }
-  this.isSomeFromArrayInArray = (arr1, arr2) => {
-    return arr1.some(data => arr2.includes(data));
-  }
-  this.removeDoublesFromArray = (array) => {
-    const newArray = [];
-    array.forEach(data => {
-      if (!newArray.includes(data)) newArray.push(data);
-    })
-    return newArray;
-  }
-  this.getNextBoxToInspect = (multiScoreGroup, searchedBoxes) => {
-    let boxNumber;
-    let continueSearch = false;
-    for (let i = 0; i < multiScoreGroup.length; i++) {
-      if (!searchedBoxes.includes(multiScoreGroup[i])) {
-        boxNumber = multiScoreGroup[i];
-        continueSearch = true;
-        break;
-      }
-    }
-    return {
-      boxNumber,
-      continueSearch
-    }
   }
   this.isAdjacentBoxesConnected = (box1, box2) => {
     const adjObj = {
       isConnected: false
     }
-    const bordersBox2 = this.getGameBoardClickBox(box2).borders;
-    const surroundingBoxes = this.getGameBoardClickBox(box1).surroundingBoxes;
-    this.getSurroundingBoxesKeys(box1).forEach(data => {
-      const complement = complementBoarder[data.replace("Box", "")];
+    const bordersBox2 = gameboardMapper.getGameBoardClickBox(box2).borders;
+    const surroundingBoxes = gameboardMapper.getGameBoardClickBox(box1).surroundingBoxes;
+    gameboardMapper.getSurroundingBoxesKeys(box1).forEach(data => {
+      const complement = complementBorder[data.replace("Box", "")];
       if (surroundingBoxes[data] && (`box${surroundingBoxes[data].boxNumber}` === box2) && (bordersBox2[complement] === null)) {
         adjObj.isConnected = true;
         adjObj.side = data.replace("Box", "");
@@ -1666,8 +371,8 @@ app.service('task', function($rootScope, $interval, $timeout) {
       hasEdgeBox: false,
       clickSide: null
     };
-    const surroundingBoxesKeys = this.getSurroundingBoxesKeys(clickBox);
-    const clickBoxObj = this.getGameBoardClickBox(clickBox);
+    const surroundingBoxesKeys = gameboardMapper.getSurroundingBoxesKeys(clickBox);
+    const clickBoxObj = gameboardMapper.getGameBoardClickBox(clickBox);
     surroundingBoxesKeys.forEach(data => {
       if ((clickBoxObj.surroundingBoxes[data] === null) && (clickBoxObj.borders[data.replace("Box", "")] === null)) {
         edgeBox.hasEdgeBox = true;
@@ -1678,8 +383,8 @@ app.service('task', function($rootScope, $interval, $timeout) {
   }
   this.getLineBetweenBoxes = (clickBox, selectedBox) => {
     let selectedSide = null;
-    this.getSurroundingBoxesKeys(clickBox).forEach(data => {
-      const number = (this.getSurroundingBoxesInfo(clickBox, data)) ? this.getSurroundingBoxesInfo(clickBox, data).boxNumber : null;
+    gameboardMapper.getSurroundingBoxesKeys(clickBox).forEach(data => {
+      const number = (gameboardMapper.getSurroundingBoxesInfo(clickBox, data)) ? gameboardMapper.getSurroundingBoxesInfo(clickBox, data).boxNumber : null;
       if (selectedBox === `box${number}`) {
         selectedSide = data
       }
@@ -1690,27 +395,26 @@ app.service('task', function($rootScope, $interval, $timeout) {
     const surroundingBoxes = this.getSurroundingBoxes(clickBox);
     const matchingBoxes = [];
     surroundingBoxes.map(data => {
-      const borders = this.getBorderCount($rootScope.gameBoard[`box${data}`].borders);
+      const borders = boxInfo.getBorderCount($rootScope.gameBoard[`box${data}`].borders);
       if (borders <= 1) matchingBoxes.push(`box${data}`);
     })
     return matchingBoxes;
   }
   this.getSurroundingBoxes = (clickBox) => {
     const surroundingBoxes = [];
-    this.getSurroundingBoxesKeys(clickBox).forEach(data => {
-      if (this.getSurroundingBoxesInfo(clickBox, data)) surroundingBoxes.push(this.getSurroundingBoxesInfo(clickBox, data).boxNumber);
+    gameboardMapper.getSurroundingBoxesKeys(clickBox).forEach(data => {
+      if (gameboardMapper.getSurroundingBoxesInfo(clickBox, data)) surroundingBoxes.push(gameboardMapper.getSurroundingBoxesInfo(clickBox, data).boxNumber);
     })
     return surroundingBoxes.filter(data => data);
   }
   this.getRandomIndexInArray = (boxArray) => {
     return boxArray[Math.floor(Math.random() * boxArray.length)];
   }
-  this.getBorderCount = (borders) => {
-    let count = 0;
-    Object.keys(borders).forEach(data => {
-      if (borders[data]) count++;
-    })
-    return count;
+});
+
+app.service("gameboardMapper", function($rootScope, $interval, $timeout) {
+  this.getGameBoardClickBox = (clickBox) => {
+    return $rootScope.gameBoard[clickBox];
   }
   this.getBorderObj = (box) => {
     return $rootScope.gameBoard[box].borders
@@ -1718,13 +422,29 @@ app.service('task', function($rootScope, $interval, $timeout) {
   this.getSurroundingBoxesInfo = (clickBox, boxSide) => {
     return $rootScope.gameBoard[clickBox].surroundingBoxes[boxSide]
   }
-  this.getGameBoardClickBox = (clickBox) => {
-    return $rootScope.gameBoard[clickBox];
-  }
   this.getGameBoardKeys = () => {
     return Object.keys($rootScope.gameBoard);
   }
   this.getSurroundingBoxesKeys = (clickBox) => {
     return Object.keys(this.getGameBoardClickBox(clickBox).surroundingBoxes);
+  }
+});
+
+app.service("boxInfo", function($rootScope, $interval, $timeout) {
+  this.getBorderCount = (borders) => {
+    let count = 0;
+    Object.keys(borders).forEach(data => {
+      if (borders[data]) count++;
+    })
+    return count;
+  }
+  this.getAllBoxClasses = (box) => {
+    const classesToAdd = ["box"];
+    if ($rootScope.gameBoard[box].borders.top) classesToAdd.push("borderTop");
+    if ($rootScope.gameBoard[box].borders.right) classesToAdd.push("borderRight");
+    if ($rootScope.gameBoard[box].borders.bottom) classesToAdd.push("borderBottom");
+    if ($rootScope.gameBoard[box].borders.left) classesToAdd.push("borderLeft");
+    if ($rootScope.gameBoard[box].whoScored) classesToAdd.push($rootScope.gameBoard[box].whoScored)
+    return classesToAdd;
   }
 });
