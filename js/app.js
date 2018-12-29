@@ -1,73 +1,62 @@
 'use strict';
 
+const noBorders = [];
+const oneBorderBoxes = [];
+const twoBorderBoxes = [];
+const threeBorderBoxes = [];
 const complementBorder = {
   top: "bottom",
   right: "left",
   bottom: "top",
   left: "right"
 }
-
 const totalPointsToScore = {
   nine: 9,
   thirtysix: 36
 }
+const setHelper = (helper) => {
+  helperButtonSelected = helper;
+}
+const toggleComputer = () => {
+  computerCanMove = !computerCanMove;
+}
 
 let playerOneScore = 0;
 let playerTwoScore = 0;
-const noBorders = [];
-const oneBorderBoxes = [];
-const twoBorderBoxes = [];
-const threeBorderBoxes = [];
+let gameBoardSize = "thirtysix"; // this will be a variable for the user to select
+let gameBoard = gameBoardMapperObj[gameBoardSize]; // map the selected gameBoard with its corresponding object
+let hasScored = false;
+let isFirstPlayerTurn = true;
+let isPlayingComputer = true; // indicates if you are playing the computer
+let helperButtonSelected = null;
+let count = 400;
+let counter;
+let computerCanMove = true;
 
-var app = angular.module('app', []);
-
-app.controller('ctrl', ['$scope', '$rootScope', '$interval', '$timeout', 'task', function($scope, $rootScope, $interval, $timeout, task) {
-  $rootScope.gameBoardSize = "thirtysix"; // this will be a variable for the user to select
-  $rootScope.gameBoard = gameBoardMapper[$scope.gameBoardSize]; // map the selected gameBoard with its corresponding object
-  $rootScope.hasScored = false;
-  $rootScope.isFirstPlayerTurn = true;
-  $rootScope.isPlayingComputer = true; // indicates if you are playing the computer
-  $rootScope.helperButtonSelected = null;
-  task.populateBoard(); // populate the gameboard into the UI
-  $scope.setHelper = (helper) => {
-    $rootScope.helperButtonSelected = helper;
-  }
-
-  $rootScope.count = 400;
-  $rootScope.counter;
-  task.startTimer();
-
-  // debuging tools
-  $rootScope.computerCanMove = true;
-  $scope.toggleComputer = () => {
-    $rootScope.computerCanMove = !$rootScope.computerCanMove;
-  }
-}]);
-
-app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, boxInfo) {
-  this.startTimer = () => {
+const task = {
+  startTimer: () => {
     const timer = () => {
-      if ($rootScope.count <= 0) {
-        this.youLose();
-        this.stopTimer()
+      if (count <= 0) {
+        task.youLose();
+        task.stopTimer()
         return;
       }
-      $rootScope.count--;
-      $("#time").text($rootScope.count / 100);
+      count--;
+      $("#time").text(count / 100);
     }
-    this.stopTimer();
-    $rootScope.counter = $interval(timer, 10); // 10 will run it every 100th of a second
-  }
-  this.youLose = () => {
+    task.stopTimer();
+    counter = setInterval(timer, 10); // 10 will run it every 100th of a second
+  },
+  youLose: () => {
     console.log("you lose")
-  }
-  this.stopTimer = () => {
-    $interval.cancel($rootScope.counter);
-  }
-  this.incrementTimer = () => {
-    $rootScope.count += 300;
+  },
+  stopTimer: () => {
+    clearInterval(counter);
+  },
+  incrementTimer: () => {
+    count += 300;
     let time;
-    const timeInString = $rootScope.count.toString();
+    const timeInString = count.toString();
     const length = timeInString.length;
     if (length < 4) {
       time = `${timeInString.slice(0, 1)}.${timeInString.slice(1)}`
@@ -76,104 +65,104 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       time = `${timeInString.slice(0, beforeDecimal)}.${timeInString.slice(beforeDecimal)}`
     }
     $("#time").text(time);
-  }
-  this.populateBoard = () => { // populate the gameboard into the UI
+  },
+  populateBoard: () => { // populate the gameboard into the UI
     document.getElementById("board").innerHTML = ""; // clear the board before rendering it
-    for (let box in $rootScope.gameBoard) {
+    for (let box in gameBoard) {
       const gridBox = document.createElement("div");
       gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
       boxInfo.getNumberText(box, gridBox);
       gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
-        if (!$rootScope.isFirstPlayerTurn) return null; // prevent out of turn clicks
-        this.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
+        if (!isFirstPlayerTurn) return null; // prevent out of turn clicks
+        task.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
       });
       $("#board").append(gridBox); // add the box to the game board
     }
-    this.setScores();
-    this.adjustBorderCountArrays(); // add boxes with one border to the oneBorderBoxes array, etc...
-  };
-  this.setScores = () => {
+    task.setScores();
+    task.adjustBorderCountArrays(); // add boxes with one border to the oneBorderBoxes array, etc...
+  },
+  setScores: () => {
     document.getElementById("playerOneScore").innerText = playerOneScore;
     document.getElementById("playerTwoScore").innerText = playerTwoScore;
-  }
-  this.highlightClickedBorder = (offsetX, offsetY, boxNumber, board) => {
+  },
+  highlightClickedBorder: (offsetX, offsetY, boxNumber, board) => {
     const height = $(".box").height();
     const upperOutOfBoundsNumber = height - 15;
     const lowerOutOfBoundsNumber = 15;
-    if (this.isALineClick(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber)) { // check to see if a line is clicked
-      const lineClicked = this.getLineClicked(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber); // cache the clicked line
-      const hasClickBorderPreviously = ($rootScope.gameBoard[boxNumber].borders[lineClicked] === true);
+    if (task.isALineClick(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber)) { // check to see if a line is clicked
+      const lineClicked = task.getLineClicked(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber); // cache the clicked line
+      const hasClickBorderPreviously = (gameBoard[boxNumber].borders[lineClicked] === true);
       if (!hasClickBorderPreviously) { // prevent multiple click to the same border
-        this.clickOnBorder(boxNumber, lineClicked);
+        task.clickOnBorder(boxNumber, lineClicked);
       }
-    } else if ($rootScope.helperButtonSelected) {
-      this.useHelper(boxNumber);
-      $rootScope.helperButtonSelected = null;
+    } else if (helperButtonSelected) {
+      task.useHelper(boxNumber);
+      helperButtonSelected = null;
     }
-  }
-  this.useHelper = (box) => {
-    if ($rootScope.helperButtonSelected === "minus") {
+  },
+  useHelper: (box) => {
+    if (helperButtonSelected === "minus") {
       // does the box have at least one line highlighted
       if (boxInfo.getBorderCount(box) > 0) {
         // choose a random line in the box to fill in
-        this.subtractOneBorderFrom(box);
+        task.subtractOneBorderFrom(box);
       } else {
         console.log("can't select box to minus");
       }
-    } else if ($rootScope.helperButtonSelected === "plus") {
+    } else if (helperButtonSelected === "plus") {
       // does the box have less than four lines highlighted
       if (boxInfo.getBorderCount(box) < 4) {
         // choose a random line in the box to remove
-        this.addOneBorderTo(box);
+        task.addOneBorderTo(box);
       } else {
         console.log("can't select box to add");
       }
     }
-  }
-  this.clickOnBorder = (boxNumber, lineClicked, helpUser = false, subtractBorder = false) => {
-    if ($rootScope.isFirstPlayerTurn) {
-      this.incrementTimer();
+  },
+  clickOnBorder: (boxNumber, lineClicked, helpUser = false, subtractBorder = false) => {
+    if (isFirstPlayerTurn) {
+      task.incrementTimer();
     }
     const action = subtractBorder ? null : true;
-    this.removeScoreColorIfRemovingBorder(boxNumber, subtractBorder)
-    $rootScope.gameBoard[boxNumber].borders[lineClicked] = action;
-    this.highlightBoxIfScored(boxNumber);
+    task.removeScoreColorIfRemovingBorder(boxNumber, subtractBorder)
+    gameBoard[boxNumber].borders[lineClicked] = action;
+    task.highlightBoxIfScored(boxNumber);
     let adjacentBox = null;
     let adjBoxNumber = null;
-    const hasAdjacentBox = ($rootScope.gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== null);
+    const hasAdjacentBox = (gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== null);
     if (hasAdjacentBox) {
-      adjacentBox = $rootScope.gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`].boxNumber;
-      $rootScope.gameBoard[`box${adjacentBox}`].borders[complementBorder[`${lineClicked}`]] = action;
-      this.highlightBoxIfScored(`box${adjacentBox}`);
+      adjacentBox = gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`].boxNumber;
+      gameBoard[`box${adjacentBox}`].borders[complementBorder[`${lineClicked}`]] = action;
+      task.highlightBoxIfScored(`box${adjacentBox}`);
       adjBoxNumber = `box${adjacentBox}`;
-      this.removeScoreColorIfRemovingBorder(`box${adjacentBox}`, subtractBorder);
+      task.removeScoreColorIfRemovingBorder(`box${adjacentBox}`, subtractBorder);
     }
-    this.closeTheBoxConnection({
+    task.closeTheBoxConnection({
       boxNumber,
       adjacentBox: adjBoxNumber,
       boxNumberClosedBorder: lineClicked,
       adjacentBoxClosedBorder: complementBorder[`${lineClicked}`]
     });
     const scoreParams = [boxNumber, `box${adjacentBox}`].filter(data => data !== "boxnull");
-    this.adjustScore(...scoreParams); // adjust the score
+    task.adjustScore(...scoreParams); // adjust the score
     if (!helpUser) {
-      this.setTurnPlayer(); // set the turn player
+      task.setTurnPlayer(); // set the turn player
     }
-    this.isGameOver();
-    this.populateBoard(board);
-  }
-  this.removeScoreColorIfRemovingBorder = (box, subtractBorder) => {
+    task.isGameOver();
+    task.populateBoard(board);
+  },
+  removeScoreColorIfRemovingBorder: (box, subtractBorder) => {
     if (subtractBorder) {
-      $rootScope.gameBoard[box].whoScored = null;
+      gameBoard[box].whoScored = null;
       $(`.${box}`).removeClass("firstPlayerScored").removeClass("secondPlayerScored");
     }
-  }
-  this.highlightBoxIfScored = (boxNumber) => {
+  },
+  highlightBoxIfScored: (boxNumber) => {
     if (boxInfo.getBorderCount(boxNumber) === 4) {
-      $rootScope.gameBoard[boxNumber].whoScored = $rootScope.isFirstPlayerTurn ? "firstPlayerScored" : "secondPlayerScored";
+      gameBoard[boxNumber].whoScored = isFirstPlayerTurn ? "firstPlayerScored" : "secondPlayerScored";
     }
-  }
-  this.isALineClick = (offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber) => {
+  },
+  isALineClick: (offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber) => {
     const inUpperOutOfBounds = (offsetX > upperOutOfBoundsNumber) || (offsetY > upperOutOfBoundsNumber);
     const inLowerOutOfBounds = (offsetX < lowerOutOfBoundsNumber) || (offsetY < lowerOutOfBoundsNumber);
     const inTopLeftCorner = (offsetX < lowerOutOfBoundsNumber) && (offsetY < lowerOutOfBoundsNumber);
@@ -182,115 +171,115 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
     const inBottomRightCorner = (offsetX > upperOutOfBoundsNumber) && (offsetY > upperOutOfBoundsNumber);
     const hasClickedACorner = (inTopLeftCorner || inBottomLeftCorner || inTopRightCorner || inBottomRightCorner);
     return (inUpperOutOfBounds || inLowerOutOfBounds) && !hasClickedACorner;
-  }
-  this.getLineClicked = (offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber) => {
+  },
+  getLineClicked: (offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber) => {
     if (offsetX > upperOutOfBoundsNumber) return "right";
     if (offsetX < lowerOutOfBoundsNumber) return "left";
     if (offsetY > upperOutOfBoundsNumber) return "bottom";
     if (offsetY < lowerOutOfBoundsNumber) return "top";
-  }
-  this.closeTheBoxConnection = (closeTheBoxConnectionParams) => {
+  },
+  closeTheBoxConnection: (closeTheBoxConnectionParams) => {
     const {
       boxNumber,
       adjacentBox,
       boxNumberClosedBorder,
       adjacentBoxClosedBorder
     } = closeTheBoxConnectionParams;
-    if ($rootScope.gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`]) $rootScope.gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`].isConnected = false;
-    if (adjacentBox && $rootScope.gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`]) $rootScope.gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`].isConnected = false;
-  }
-  this.adjustScore = (boxNumber, adjacentBoxNumber) => {
+    if (gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`]) gameBoard[boxNumber].surroundingBoxes[`${boxNumberClosedBorder}Box`].isConnected = false;
+    if (adjacentBox && gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`]) gameBoard[adjacentBox].surroundingBoxes[`${adjacentBoxClosedBorder}Box`].isConnected = false;
+  },
+  adjustScore: (boxNumber, adjacentBoxNumber) => {
     const score = (box) => {
-      if (!this.hasScored(box)) return null; // check to see if player scored a point
-      ($rootScope.isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
-      $rootScope.hasScored = true;
+      if (!task.hasScored(box)) return null; // check to see if player scored a point
+      (isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
+      hasScored = true;
     }
     if (boxNumber) score(boxNumber);
     if (adjacentBoxNumber) score(adjacentBoxNumber);
-  }
-  this.hasScored = (boxNumber) => {
-    const isTopClicked = $rootScope.gameBoard[boxNumber].borders.top;
-    const isRightClicked = $rootScope.gameBoard[boxNumber].borders.right;
-    const isBottomClicked = $rootScope.gameBoard[boxNumber].borders.bottom;
-    const isLeftClicked = $rootScope.gameBoard[boxNumber].borders.left;
+  },
+  hasScored: (boxNumber) => {
+    const isTopClicked = gameBoard[boxNumber].borders.top;
+    const isRightClicked = gameBoard[boxNumber].borders.right;
+    const isBottomClicked = gameBoard[boxNumber].borders.bottom;
+    const isLeftClicked = gameBoard[boxNumber].borders.left;
     return (isTopClicked && isRightClicked && isBottomClicked && isLeftClicked);
-  }
-  this.setTurnPlayer = () => {
-    $rootScope.isFirstPlayerTurn = ($rootScope.hasScored) ? $rootScope.isFirstPlayerTurn : !$rootScope.isFirstPlayerTurn;
-    $rootScope.hasScored = false;
-    if ($rootScope.isPlayingComputer && !$rootScope.isFirstPlayerTurn) { // make the computer move
-      this.makeComputerMove();
+  },
+  setTurnPlayer: () => {
+    isFirstPlayerTurn = (hasScored) ? isFirstPlayerTurn : !isFirstPlayerTurn;
+    hasScored = false;
+    if (isPlayingComputer && !isFirstPlayerTurn) { // make the computer move
+      task.makeComputerMove();
     } else {
-      this.startTimer();
+      task.startTimer();
     }
-  }
-  this.isGameOver = () => {
+  },
+  isGameOver: () => {
     let totalPointsScored = 0;
-    Object.keys($rootScope.gameBoard).forEach(box => {
+    Object.keys(gameBoard).forEach(box => {
       const firstPlayerScored = $(`.${box}`).attr("class").includes("firstPlayerScored");
       const secondPlayerScored = $(`.${box}`).attr("class").includes("secondPlayerScored");
       if (firstPlayerScored || secondPlayerScored) totalPointsScored++;
     })
-    if (totalPointsScored === (totalPointsToScore[$rootScope.gameBoardSize] - 1)) console.log("game complete")
-  }
-  this.adjustBorderCountArrays = () => {
-    this.clearBorderArrays();
-    for (let box in $rootScope.gameBoard) {
+    if (totalPointsScored === (totalPointsToScore[gameBoardSize] - 1)) console.log("game complete")
+  },
+  adjustBorderCountArrays: () => {
+    task.clearBorderArrays();
+    for (let box in gameBoard) {
       const borderCount = boxInfo.getBorderCount(box);
       if (borderCount === 0) noBorders.push(box);
       else if (borderCount === 1) oneBorderBoxes.push(box);
       else if (borderCount === 2) twoBorderBoxes.push(box)
       else if (borderCount === 3) threeBorderBoxes.push(box);
     }
-  }
-  this.clearBorderArrays = () => {
+  },
+  clearBorderArrays: () => {
     noBorders.length = 0;
     oneBorderBoxes.length = 0;
     twoBorderBoxes.length = 0
     threeBorderBoxes.length = 0;
-  }
-  this.makeComputerMove = () => {
-    if (!$rootScope.computerCanMove) return null
-    this.stopTimer();
+  },
+  makeComputerMove: () => {
+    if (!computerCanMove) return null
+    task.stopTimer();
     // logic to make computer move
-    $timeout(() => { // makes the computer delay before making a move
-      this.makeMoveInSafeBox()
+    setTimeout(() => { // makes the computer delay before making a move
+      task.makeMoveInSafeBox()
     }, 100);
-  }
-  this.makeMoveInSafeBox = () => { // make a computer move that doesn't allow opponent the score
-    if (threeBorderBoxes.length !== 0) this.getAFreeBox();
-    else if (noBorders.length !== 0) this.clickInANoBorderBox();
-    else if (oneBorderBoxes.length !== 0) this.clickInAOneBorderBox();
-    else if (twoBorderBoxes.length !== 0) this.clickInATwoBorderBox();
-    this.populateBoard();
-  }
-  this.getAFreeBox = () => {
-    const clickBox = this.getRandomIndexInArray(threeBorderBoxes);
+  },
+  makeMoveInSafeBox: () => { // make a computer move that doesn't allow opponent the score
+    if (threeBorderBoxes.length !== 0) task.getAFreeBox();
+    else if (noBorders.length !== 0) task.clickInANoBorderBox();
+    else if (oneBorderBoxes.length !== 0) task.clickInAOneBorderBox();
+    else if (twoBorderBoxes.length !== 0) task.clickInATwoBorderBox();
+    task.populateBoard();
+  },
+  getAFreeBox: () => {
+    const clickBox = task.getRandomIndexInArray(threeBorderBoxes);
     Object.keys(gameboardMapper.getGameBoardClickBox(clickBox).borders).forEach(data => {
       if (!gameboardMapper.getGameBoardClickBox(clickBox).borders[data]) {
-        this.clickOnBorder(clickBox, data);
+        task.clickOnBorder(clickBox, data);
       }
     })
-  }
-  this.clickInANoBorderBox = () => {
+  },
+  clickInANoBorderBox: () => {
     let keepGoing = true;
     while (keepGoing) {
       // choose a randon box in the array containing box with no border
-      const clickBox = this.getRandomIndexInArray(noBorders);
+      const clickBox = task.getRandomIndexInArray(noBorders);
       //remove that box from that array to avoid checking it multiple times
       noBorders.splice(noBorders.indexOf(clickBox), 1);
       // get the boxes around it that only has one or less borders already selected
-      const oneOrLessBorderSurroundingBoxes = this.getLessThanOneBorderNonConnectedSurroundingBoxes(clickBox);
+      const oneOrLessBorderSurroundingBoxes = task.getLessThanOneBorderNonConnectedSurroundingBoxes(clickBox);
       // choose a random box of the potential boxes to click
-      const selectedBox = this.getRandomIndexInArray(oneOrLessBorderSurroundingBoxes);
+      const selectedBox = task.getRandomIndexInArray(oneOrLessBorderSurroundingBoxes);
       // cache the line between the two boxes to use when clicking
-      const lineBetweenBoxes = this.getLineBetweenBoxes(clickBox, selectedBox);
+      const lineBetweenBoxes = task.getLineBetweenBoxes(clickBox, selectedBox);
       // is the box on the edge of the gameboard and has no adjcent box
-      const edgeBox = this.edgeBox(clickBox);
+      const edgeBox = task.edgeBox(clickBox);
       // if the box is an edge box you can click the edge as a safe move
       if (edgeBox.hasEdgeBox) {
         keepGoing = false;
-        this.clickOnBorder(clickBox, edgeBox.clickSide);
+        task.clickOnBorder(clickBox, edgeBox.clickSide);
         break;
       }
       // if the noBorders array is empty all avaible chooses are not safe to click
@@ -301,28 +290,28 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       if (selectedBox && lineBetweenBoxes) {
         keepGoing = false;
         const line = lineBetweenBoxes.replace("Box", "");
-        this.clickOnBorder(clickBox, line);
+        task.clickOnBorder(clickBox, line);
       } else {
         // if not, rethink what kind of box we want to potentially click
-        this.makeMoveInSafeBox();
+        task.makeMoveInSafeBox();
       }
     }
-  }
-  this.clickInAOneBorderBox = () => {
+  },
+  clickInAOneBorderBox: () => {
     const safeClickBoxWithSide = [];
     const oneBorder = [...oneBorderBoxes];
     oneBorder.forEach(box => {
       oneBorderBoxes.splice(oneBorderBoxes.indexOf(box), 1);
-      const edgeBox = this.edgeBox(box);
-      if (edgeBox.hasEdgeBox) { // this takes care of the corner cases by clicked its empty side
+      const edgeBox = task.edgeBox(box);
+      if (edgeBox.hasEdgeBox) { // task takes care of the corner cases by clicked its empty side
         safeClickBoxWithSide.push({
           clickBox: box,
           clickSide: edgeBox.clickSide
         });
       } else {
-        const surroundingOnBorderBoxes = this.getSurroundingBoxes(box).filter(data => oneBorderBoxes.includes(`box${data}`));
+        const surroundingOnBorderBoxes = task.getSurroundingBoxes(box).filter(data => oneBorderBoxes.includes(`box${data}`));
         surroundingOnBorderBoxes.forEach(data => {
-          const adjObj = this.isAdjacentBoxesConnected(box, `box${data}`);
+          const adjObj = task.isAdjacentBoxesConnected(box, `box${data}`);
           if (adjObj.isConnected) {
             safeClickBoxWithSide.push({
               clickBox: box,
@@ -333,20 +322,20 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       }
     })
     if (safeClickBoxWithSide.length !== 0) {
-      const clickBoxObj = this.getRandomIndexInArray(safeClickBoxWithSide);
-      this.clickOnBorder(clickBoxObj.clickBox, clickBoxObj.clickSide);
+      const clickBoxObj = task.getRandomIndexInArray(safeClickBoxWithSide);
+      task.clickOnBorder(clickBoxObj.clickBox, clickBoxObj.clickSide);
     } else {
-      this.makeMoveInSafeBox();
+      task.makeMoveInSafeBox();
     }
-  }
-  this.clickInATwoBorderBox = () => {
+  },
+  clickInATwoBorderBox: () => {
     // all possible connected box combinations
     const connectedBoxCombinations = [];
     // inspected boxes
     const inspectedBoxes = [];
     let allConnectedBoxes = [];
     // filter for two line boxes
-    const twoLineBoxes = Object.keys($rootScope.gameBoard).filter(boxNumber => boxInfo.getBorderCount(boxNumber) === 2);
+    const twoLineBoxes = Object.keys(gameBoard).filter(boxNumber => boxInfo.getBorderCount(boxNumber) === 2);
     // stops the while loop
     let keepGoing = true;
     // number of boxes inpecting
@@ -362,9 +351,9 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
         // remove it from the uninspected
         twoLineBoxes.splice(twoLineBoxes.indexOf(boxNumber), 1);
         // get the connected boxes
-        const surroundingBoxes = this.getSurroundingBoxes(boxNumber);
+        const surroundingBoxes = task.getSurroundingBoxes(boxNumber);
         // filter for connected boxes
-        const connectedBoxes = surroundingBoxes.filter(box => this.isAdjacentBoxesConnected(`box${box}`, boxNumber).isConnected);
+        const connectedBoxes = surroundingBoxes.filter(box => task.isAdjacentBoxesConnected(`box${box}`, boxNumber).isConnected);
         // filter out for 2 line boxes
         const filterBoxesForTwoLineConnectedBoxes = connectedBoxes.filter(data => twoLineBoxes.includes(`box${data}`)).map(box => `box${box}`);
         filterBoxesForTwoLineConnectedBoxes.forEach(box => {
@@ -381,11 +370,11 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       if (inspectedBoxes.length === numberOfBoxesInspecting) keepGoing = false;
     }
     // choose a box to click
-    this.chooseBoxToClickInEndGame(connectedBoxCombinations);
-  }
-  this.chooseBoxToClickInEndGame = (multiScoreBoxePaths) => {
+    task.chooseBoxToClickInEndGame(connectedBoxCombinations);
+  },
+  chooseBoxToClickInEndGame: (multiScoreBoxePaths) => {
     const pathToClickABox = multiScoreBoxePaths.sort((a, b) => a.length - b.length);
-    const boxToClick = this.getRandomIndexInArray(pathToClickABox[0]);
+    const boxToClick = task.getRandomIndexInArray(pathToClickABox[0]);
     let lineClick;
     Object.keys(gameboardMapper.getGameBoardClickBox(boxToClick).borders).forEach(data => {
       if (gameboardMapper.getGameBoardClickBox(boxToClick).borders[data] === null) {
@@ -394,10 +383,10 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
     });
     // after picking the line, test it out to see if it gives the same amount of boxes as its array length
     // const enterVirtualEnviroment = true;
-    // this.clickOnBorder(boxToClick, lineClick, enterVirtualEnviroment);
-    this.clickOnBorder(boxToClick, lineClick);
-  }
-  this.isAdjacentBoxesConnected = (box1, box2) => {
+    // task.clickOnBorder(boxToClick, lineClick, enterVirtualEnviroment);
+    task.clickOnBorder(boxToClick, lineClick);
+  },
+  isAdjacentBoxesConnected: (box1, box2) => {
     const adjObj = {
       isConnected: false
     }
@@ -411,8 +400,8 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       }
     })
     return adjObj;
-  }
-  this.edgeBox = (clickBox) => { // return an edge box
+  },
+  edgeBox: (clickBox) => { // return an edge box
     let edgeBox = {
       hasEdgeBox: false,
       clickSide: null
@@ -426,8 +415,8 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       }
     })
     return edgeBox;
-  }
-  this.getLineBetweenBoxes = (clickBox, selectedBox) => {
+  },
+  getLineBetweenBoxes: (clickBox, selectedBox) => {
     let selectedSide = null;
     gameboardMapper.getSurroundingBoxesKeys(clickBox).forEach(data => {
       const number = (gameboardMapper.getSurroundingBoxesInfo(clickBox, data)) ? gameboardMapper.getSurroundingBoxesInfo(clickBox, data).boxNumber : null;
@@ -436,92 +425,95 @@ app.service('task', function($rootScope, $interval, $timeout, gameboardMapper, b
       }
     });
     return selectedSide;
-  }
-  this.getLessThanOneBorderNonConnectedSurroundingBoxes = (clickBox) => {
-    const surroundingBoxes = this.getSurroundingBoxes(clickBox);
+  },
+  getLessThanOneBorderNonConnectedSurroundingBoxes: (clickBox) => {
+    const surroundingBoxes = task.getSurroundingBoxes(clickBox);
     const matchingBoxes = [];
     surroundingBoxes.map(data => {
       const borders = boxInfo.getBorderCount(`box${data}`);
       if (borders <= 1) matchingBoxes.push(`box${data}`);
     })
     return matchingBoxes;
-  }
-  this.getSurroundingBoxes = (clickBox) => {
+  },
+  getSurroundingBoxes: (clickBox) => {
     const surroundingBoxes = [];
     gameboardMapper.getSurroundingBoxesKeys(clickBox).forEach(data => {
       if (gameboardMapper.getSurroundingBoxesInfo(clickBox, data)) surroundingBoxes.push(gameboardMapper.getSurroundingBoxesInfo(clickBox, data).boxNumber);
     })
     return surroundingBoxes.filter(data => data);
-  }
-  this.getRandomIndexInArray = (boxArray) => {
+  },
+  getRandomIndexInArray: (boxArray) => {
     return boxArray[Math.floor(Math.random() * boxArray.length)];
-  }
-  this.subtractOneBorderFrom = (box) => {
+  },
+  subtractOneBorderFrom: (box) => {
     const clickedBorders = boxInfo.getClickedBorders(box);
-    const borderToRemove = this.getRandomIndexInArray(clickedBorders);
-    this.clickOnBorder(box, borderToRemove, true, true);
-  }
-  this.addOneBorderTo = (box) => {
+    const borderToRemove = task.getRandomIndexInArray(clickedBorders);
+    task.clickOnBorder(box, borderToRemove, true, true);
+  },
+  addOneBorderTo: (box) => {
     const unclickedBorders = boxInfo.getUnclickedBorders(box);
-    const borderToAdd = this.getRandomIndexInArray(unclickedBorders);
-    this.clickOnBorder(box, borderToAdd, true);
+    const borderToAdd = task.getRandomIndexInArray(unclickedBorders);
+    task.clickOnBorder(box, borderToAdd, true);
   }
-});
+}
 
-app.service("gameboardMapper", function($rootScope, $interval, $timeout) {
-  this.getGameBoardClickBox = (clickBox) => {
-    return $rootScope.gameBoard[clickBox];
+const gameboardMapper = {
+  getGameBoardClickBox: (clickBox) => {
+    return gameBoard[clickBox];
+  },
+  getSurroundingBoxesInfo: (clickBox, boxSide) => {
+    return gameBoard[clickBox].surroundingBoxes[boxSide]
+  },
+  getSurroundingBoxesKeys: (clickBox) => {
+    return Object.keys(gameboardMapper.getGameBoardClickBox(clickBox).surroundingBoxes);
   }
-  this.getSurroundingBoxesInfo = (clickBox, boxSide) => {
-    return $rootScope.gameBoard[clickBox].surroundingBoxes[boxSide]
-  }
-  this.getSurroundingBoxesKeys = (clickBox) => {
-    return Object.keys(this.getGameBoardClickBox(clickBox).surroundingBoxes);
-  }
-});
+}
 
-app.service("boxInfo", function($rootScope, $interval, $timeout) {
-  this.getBorderCount = (box) => {
-    const borders = $rootScope.gameBoard[box].borders;
+const boxInfo = {
+  getBorderCount: (box) => {
+    const borders = gameBoard[box].borders;
     let count = 0;
     Object.keys(borders).forEach(data => {
       if (borders[data]) count++;
     })
     return count;
-  }
-  this.getAllBoxClasses = (box) => {
+  },
+  getAllBoxClasses: (box) => {
     const classesToAdd = ["box"];
-    if ($rootScope.gameBoard[box].borders.top) classesToAdd.push("borderTop");
-    if ($rootScope.gameBoard[box].borders.right) classesToAdd.push("borderRight");
-    if ($rootScope.gameBoard[box].borders.bottom) classesToAdd.push("borderBottom");
-    if ($rootScope.gameBoard[box].borders.left) classesToAdd.push("borderLeft");
-    if ($rootScope.gameBoard[box].whoScored) classesToAdd.push($rootScope.gameBoard[box].whoScored);
+    if (gameBoard[box].borders.top) classesToAdd.push("borderTop");
+    if (gameBoard[box].borders.right) classesToAdd.push("borderRight");
+    if (gameBoard[box].borders.bottom) classesToAdd.push("borderBottom");
+    if (gameBoard[box].borders.left) classesToAdd.push("borderLeft");
+    if (gameBoard[box].whoScored) classesToAdd.push(gameBoard[box].whoScored);
     classesToAdd.push("flexRow");
     classesToAdd.push(box);
     return classesToAdd;
-  }
-  this.getNumberText = (box, div) => {
+  },
+  getNumberText: (box, div) => {
     let numberOfSides = 0;
-    if ($rootScope.gameBoard[box].borders.top) numberOfSides++;
-    if ($rootScope.gameBoard[box].borders.right) numberOfSides++;
-    if ($rootScope.gameBoard[box].borders.bottom) numberOfSides++;
-    if ($rootScope.gameBoard[box].borders.left) numberOfSides++;
+    if (gameBoard[box].borders.top) numberOfSides++;
+    if (gameBoard[box].borders.right) numberOfSides++;
+    if (gameBoard[box].borders.bottom) numberOfSides++;
+    if (gameBoard[box].borders.left) numberOfSides++;
     $(div).html(`<p>${numberOfSides}</p>`)
-  }
-  this.getUnclickedBorders = (box) => {
+  },
+  getUnclickedBorders: (box) => {
     const bordersArray = [];
-    const borders = $rootScope.gameBoard[box].borders;
+    const borders = gameBoard[box].borders;
     Object.keys(borders).forEach(data => {
       if (!borders[data]) bordersArray.push(data);
     })
     return bordersArray;
-  }
-  this.getClickedBorders = (box) => {
+  },
+  getClickedBorders: (box) => {
     const bordersArray = [];
-    const borders = $rootScope.gameBoard[box].borders;
+    const borders = gameBoard[box].borders;
     Object.keys(borders).forEach(data => {
       if (borders[data]) bordersArray.push(data);
     })
     return bordersArray;
   }
-});
+}
+
+task.populateBoard(); // populate the gameboard into the UI
+task.startTimer();

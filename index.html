@@ -19,14 +19,32 @@
     <link rel="stylesheet" type="text/css" media="only screen and (min-width:300px) and (max-width:599px)" href="css/style_300.css">
     <link rel="stylesheet" href="./css/animation.css">
 
-  </head>
-  <body ng-app='app' ng-controller='ctrl' ng-cloak>
-    <button type="button" name="button" ng-click="toggleComputer()">toggle computer</button>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
+  </head>
+  <body>
+    <!-- <button type="button" name="button" onClick="toggleComputer()">toggle computer</button> -->
+    <div class="flexRow timer">
+      <p id="time"></p>
+    </div>
+    <div id="helpers" class="flexRow">
+      <div class="helper flexRow" onClick="setHelper('minus')">
+        <i class="fas fa-hand-point-down"></i>
+      </div>
+      <div class="helper flexRow" onClick="setHelper('plus')">
+        <i class="fas fa-hand-point-up"></i>
+      </div>
+      <div class="helper flexRow" onClick="setHelper('all')">
+        <i class="fas fa-th"></i>
+      </div>
+    </div>
     <div id="container" class="flexCol">
-      <div class="">
-        <p>player one score: <span id="playerOneScore"></span> </p>
-        <p>player two score: <span id="playerTwoScore"></span> </p>
+      <div class="flexRow">
+        <div class="">
+          <p>player one score: <span id="playerOneScore"></span> </p>
+          <p>player two score: <span id="playerTwoScore"></span> </p>
+        </div>
       </div>
       <div id="board" class="flexRow"></div>
     </div>
@@ -35,6 +53,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script type="text/javascript" src="./js/gameBoards.js"></script>
-    <script type="text/javascript" src="./js/main.js"></script>
+    <script type="text/javascript" src="./js/app.js"></script>
   </body>
 </html>
