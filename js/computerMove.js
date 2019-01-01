@@ -4,7 +4,7 @@ const computerMove = {
     // logic to make computer move
     setTimeout(() => { // makes the computer delay before making a move
       computerMove.makeMoveInSafeBox()
-    }, 100);
+    }, 500);
   },
   makeMoveInSafeBox: () => { // make a computer move that doesn't allow opponent the score
     if (threeBorderBoxes.length !== 0) computerMove.getAFreeBox();
@@ -36,12 +36,6 @@ const computerMove = {
       const lineBetweenBoxes = boxInfo.getLineBetweenBoxes(clickBox, selectedBox);
       // is the box on the edge of the gameboard and has no adjcent box
       const edgeBox = boxInfo.edgeBox(clickBox);
-      // if the box is an edge box you can click the edge as a safe move
-      if (edgeBox.hasEdgeBox) {
-        keepGoing = false;
-        lineClickAction.clickOnBorder(clickBox, edgeBox.clickSide);
-        break;
-      }
       // if the noBorders array is empty all avaible chooses are not safe to click
       if (noBorders.length === 0) {
         keepGoing = false;
@@ -52,6 +46,12 @@ const computerMove = {
         const line = lineBetweenBoxes.replace("Box", "");
         lineClickAction.clickOnBorder(clickBox, line);
       } else {
+        // if the box is an edge box you can click the edge as a safe move
+        if (edgeBox.hasEdgeBox) {
+          keepGoing = false;
+          lineClickAction.clickOnBorder(clickBox, edgeBox.clickSide);
+          break;
+        }
         // if not, rethink what kind of box we want to potentially click
         computerMove.makeMoveInSafeBox();
       }
@@ -195,5 +195,12 @@ const computerMove = {
       remainingPathsToCheck,
       extendBox: boxToAdd
     };
+  },
+  dontFillInRemainingBoxes: () => {
+    // if remaing paths is more than 2, dont take the rest of the boxes in the path
+  },
+  giveAWayABox: () => {
+    // chance that give a way a box
+    // choose the lowest box to give away
   }
 }
