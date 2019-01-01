@@ -102,8 +102,8 @@ const boxInfo = {
     const surroundingBoxes = boxInfo.getSurroundingBoxes(clickBox);
     const matchingBoxes = [];
     surroundingBoxes.map(data => {
-      const borders = boxInfo.getBorderCount(`box${data}`);
-      if (borders <= 1) matchingBoxes.push(`box${data}`);
+      const borders = boxInfo.getBorderCount(data);
+      if (borders <= 1) matchingBoxes.push(data);
     })
     return matchingBoxes;
   },
@@ -112,6 +112,26 @@ const boxInfo = {
     gameboardMapper.getSurroundingBoxesKeys(clickBox).forEach(data => {
       if (gameboardMapper.getSurroundingBoxesInfo(clickBox, data)) surroundingBoxes.push(gameboardMapper.getSurroundingBoxesInfo(clickBox, data).boxNumber);
     })
-    return surroundingBoxes.filter(data => data);
+    return surroundingBoxes.filter(data => data).map(box => `box${box}`);
   },
+  getOneBorderConnectedSurroundingBoxes: (box) => {
+    const oneBorderConnectedSurroundingBoxes = [];
+    const connectedSurroundingBoxes = boxInfo.getSurroundingBoxes(box).filter(adjBox => boxInfo.isAdjacentBoxesConnected(box, adjBox).isConnected);
+    connectedSurroundingBoxes.forEach(surBox => {
+      if (boxInfo.getBorderCount(surBox) === 1) {
+        oneBorderConnectedSurroundingBoxes.push(surBox);
+      }
+    });
+    return oneBorderConnectedSurroundingBoxes;
+  },
+  getConnectedBoxes: (box) => {
+    const connectedBoxes = [];
+    const surroundingBoxes = boxInfo.getSurroundingBoxes(box);
+    surroundingBoxes.forEach(surBox => {
+      if (boxInfo.isAdjacentBoxesConnected(box, surBox).isConnected) {
+        connectedBoxes.push(surBox)
+      }
+    })
+    return connectedBoxes;
+  }
 }

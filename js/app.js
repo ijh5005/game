@@ -4,6 +4,7 @@ const noBorders = [];
 const oneBorderBoxes = [];
 const twoBorderBoxes = [];
 const threeBorderBoxes = [];
+const extendedPathBoxes = [];
 const complementBorder = {
   top: "bottom",
   right: "left",
@@ -17,12 +18,15 @@ const totalPointsToScore = {
 const setHelper = (helper) => {
   helperButtonSelected = helper;
 }
-const toggleComputer = () => {
-  computerCanMove = !computerCanMove;
-}
 const gameBoardMapperObj = {
   nine,
   thirtysix
+}
+const debugMode = () => {
+  disableComputer = !disableComputer;
+}
+const tryFunction = () => {
+  boxInfo.getOneBorderConnectedSurroundingBoxes("box10");
 }
 
 let playerOneScore = 0;
@@ -35,7 +39,7 @@ let isPlayingComputer = true; // indicates if you are playing the computer
 let helperButtonSelected = null;
 let count = 400;
 let counter;
-let computerCanMove = true;
+let disableComputer = false;
 
 ui.populateBoard(); // populate the gameboard into the UI
 gameTimer.startTimer();

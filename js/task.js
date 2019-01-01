@@ -1,6 +1,6 @@
 const task = {
   setTurnPlayer: () => {
-    isFirstPlayerTurn = (hasScored) ? isFirstPlayerTurn : !isFirstPlayerTurn;
+    isFirstPlayerTurn = (hasScored || disableComputer) ? isFirstPlayerTurn : !isFirstPlayerTurn;
     hasScored = false;
     if (isPlayingComputer && !isFirstPlayerTurn) { // make the computer move
       computerMove.makeComputerMove();
