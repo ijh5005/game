@@ -3,13 +3,20 @@ const computerMove = {
     gameTimer.stopTimer();
     // logic to make computer move
     setTimeout(() => { // makes the computer delay before making a move
-      computerMove.makeMoveInSafeBox()
+      if ((twoBorderBoxes.length !== 0) && !(threeBorderBoxes.length > 0) && (computerMove.giveAWayABox())) {
+        computerMove.clickInATwoBorderBox();
+        ui.populateBoard();
+      } else {
+        computerMove.makeMoveInSafeBox()
+      }
     }, 500);
   },
   makeMoveInSafeBox: () => { // make a computer move that doesn't allow opponent the score
+    const letOpponentHaveBox = computerMove.shouldLetHaveBox();
     if (threeBorderBoxes.length !== 0) computerMove.getAFreeBox();
     else if (noBorders.length !== 0) computerMove.clickInANoBorderBox();
     else if (oneBorderBoxes.length !== 0) computerMove.clickInAOneBorderBox();
+    else if (letOpponentHaveBox) computerMove.dontFillInRemainingBoxes();
     else if (twoBorderBoxes.length !== 0) computerMove.clickInATwoBorderBox();
     ui.populateBoard();
   },
@@ -196,11 +203,14 @@ const computerMove = {
       extendBox: boxToAdd
     };
   },
+  shouldLetHaveBox: () => {
+    let letHaveBox = false;
+    return letHaveBox;
+  },
   dontFillInRemainingBoxes: () => {
     // if remaing paths is more than 2, dont take the rest of the boxes in the path
   },
   giveAWayABox: () => {
-    // chance that give a way a box
-    // choose the lowest box to give away
+    return (Math.random() < chanceToGiveAWayPoint);
   }
 }

@@ -5,6 +5,7 @@ const oneBorderBoxes = [];
 const twoBorderBoxes = [];
 const threeBorderBoxes = [];
 const extendedPathBoxes = [];
+const chanceToGiveAWayPoint = 0.1;
 const complementBorder = {
   top: "bottom",
   right: "left",

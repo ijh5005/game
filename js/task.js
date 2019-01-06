@@ -15,7 +15,10 @@ const task = {
       const secondPlayerScored = $(`.${box}`).attr("class").includes("secondPlayerScored");
       if (firstPlayerScored || secondPlayerScored) totalPointsScored++;
     })
-    if (totalPointsScored === (totalPointsToScore[gameBoardSize] - 1)) console.log("game complete")
+    if (totalPointsScored === (totalPointsToScore[gameBoardSize] - 1)) {
+      console.log("game complete");
+      gameTimer.stopTimer();
+    }
   },
   getRandomIndexInArray: (boxArray) => {
     return boxArray[Math.floor(Math.random() * boxArray.length)];
