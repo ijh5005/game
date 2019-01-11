@@ -15,6 +15,7 @@ const lineClickAction = {
     }
   },
   clickOnBorder: (boxNumber, lineClicked, helpUser = false, subtractBorder = false) => {
+    turnNumber++;
     if (isFirstPlayerTurn) {
       gameTimer.incrementTimer();
     }

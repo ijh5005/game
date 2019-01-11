@@ -41,6 +41,9 @@ let helperButtonSelected = null;
 let count = 400;
 let counter;
 let disableComputer = false;
+let totalPointsScored = 0;
+let turnNumber = 0;
+let calculatedTotalTurns = totalPointsToScore[gameBoardSize] * 4;
 
 ui.populateBoard(); // populate the gameboard into the UI
 gameTimer.startTimer();

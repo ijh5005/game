@@ -9,7 +9,7 @@ const task = {
     }
   },
   isGameOver: () => {
-    let totalPointsScored = 0;
+    totalPointsScored = 0;
     Object.keys(gameBoard).forEach(box => {
       const firstPlayerScored = $(`.${box}`).attr("class").includes("firstPlayerScored");
       const secondPlayerScored = $(`.${box}`).attr("class").includes("secondPlayerScored");

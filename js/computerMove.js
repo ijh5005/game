@@ -3,20 +3,21 @@ const computerMove = {
     gameTimer.stopTimer();
     // logic to make computer move
     setTimeout(() => { // makes the computer delay before making a move
-      if ((twoBorderBoxes.length !== 0) && !(threeBorderBoxes.length > 0) && (computerMove.giveAWayABox())) {
+      const existsTwoBorderBoxes = twoBorderBoxes.length !== 0;
+      const noThreeBorderBoxes = !(threeBorderBoxes.length > 0);
+      const at20percentMark = (turnNumber / calculatedTotalTurns) > 0.2;
+      if (existsTwoBorderBoxes && noThreeBorderBoxes && computerMove.giveAWayABox() && at20percentMark) {
         computerMove.clickInATwoBorderBox();
         ui.populateBoard();
       } else {
-        computerMove.makeMoveInSafeBox()
+        computerMove.makeMoveInSafeBox();
       }
     }, 500);
   },
   makeMoveInSafeBox: () => { // make a computer move that doesn't allow opponent the score
-    const letOpponentHaveBox = computerMove.shouldLetHaveBox();
     if (threeBorderBoxes.length !== 0) computerMove.getAFreeBox();
     else if (noBorders.length !== 0) computerMove.clickInANoBorderBox();
     else if (oneBorderBoxes.length !== 0) computerMove.clickInAOneBorderBox();
-    else if (letOpponentHaveBox) computerMove.dontFillInRemainingBoxes();
     else if (twoBorderBoxes.length !== 0) computerMove.clickInATwoBorderBox();
     ui.populateBoard();
   },
@@ -141,8 +142,11 @@ const computerMove = {
   },
   chooseBoxToClickInEndGame: (multiScoreBoxPaths) => {
     const pathToClickABox = multiScoreBoxPaths.sort((a, b) => a.length - b.length);
+    const letOpponentHaveBox = computerMove.shouldLetHaveBox(pathToClickABox);
     const pathObj = computerMove.checkForPotentialExtendedPaths(pathToClickABox[0], multiScoreBoxPaths);
-    if (pathObj.hasExtendedPaths && extendedPathBoxes.includes(pathObj.extendBox)) {
+    if (letOpponentHaveBox.letHaveBox) {
+      debugger
+    } else if (pathObj.hasExtendedPaths && extendedPathBoxes.includes(pathObj.extendBox)) {
       computerMove.chooseBoxToClickInEndGame(pathObj.remainingPathsToCheck);
     } else {
       const boxToClick = task.getRandomIndexInArray(pathToClickABox[0]);
@@ -203,12 +207,15 @@ const computerMove = {
       extendBox: boxToAdd
     };
   },
-  shouldLetHaveBox: () => {
-    let letHaveBox = false;
-    return letHaveBox;
+  shouldLetHaveBox: (pathToClickABox) => {
+    const clickBoxInfo = {
+      letHaveBox: false
+    };
+    return clickBoxInfo;
   },
   dontFillInRemainingBoxes: () => {
     // if remaing paths is more than 2, dont take the rest of the boxes in the path
+    debugger
   },
   giveAWayABox: () => {
     return (Math.random() < chanceToGiveAWayPoint);
