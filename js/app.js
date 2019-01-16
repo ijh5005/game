@@ -29,6 +29,9 @@ const debugMode = () => {
 const tryFunction = () => {
   boxInfo.getOneBorderConnectedSurroundingBoxes("box10");
 }
+const onLastBox = () => {
+  return (totalPointsToScore[gameBoardSize] - totalPointsScored) === 1;
+}
 
 let playerOneScore = 0;
 let playerTwoScore = 0;
@@ -44,6 +47,7 @@ let disableComputer = false;
 let totalPointsScored = 0;
 let turnNumber = 0;
 let calculatedTotalTurns = totalPointsToScore[gameBoardSize] * 4;
+let conserveMoveUsed = false;
 
 ui.populateBoard(); // populate the gameboard into the UI
 gameTimer.startTimer();

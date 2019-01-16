@@ -133,8 +133,5 @@ const boxInfo = {
       }
     })
     return connectedBoxes;
-  },
-  getLineToNotScorePoint: (box) => {
-    // choose line not connected to a three line box
   }
 }

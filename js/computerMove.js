@@ -23,9 +23,17 @@ const computerMove = {
   },
   getAFreeBox: () => {
     const clickBox = task.getRandomIndexInArray(threeBorderBoxes);
+
+    let clickBoxInfo = computerMove.shouldLetHaveBox();
+
     Object.keys(gameboardMapper.getGameBoardClickBox(clickBox).borders).forEach(data => {
       if (!gameboardMapper.getGameBoardClickBox(clickBox).borders[data]) {
-        lineClickAction.clickOnBorder(clickBox, data);
+        if (clickBoxInfo && conserveMoveUsed) {
+          debugger
+          lineClickAction.clickOnBorder(clickBoxInfo.boxToClick, clickBoxInfo.sideToClick)
+        } else {
+          lineClickAction.clickOnBorder(clickBox, data);
+        }
       }
     })
   },
@@ -97,6 +105,11 @@ const computerMove = {
     }
   },
   clickInATwoBorderBox: () => {
+    const connectedBoxCombinations = computerMove.getPathBoxes();
+    // choose a box to click
+    computerMove.chooseBoxToClickInEndGame(connectedBoxCombinations);
+  },
+  getPathBoxes: () => {
     // all possible connected box combinations
     const connectedBoxCombinations = [];
     // inspected boxes
@@ -128,7 +141,7 @@ const computerMove = {
           if (!allConnectedBoxes.includes(box)) recordConnectedBoxes(box);
         })
       }
-      if (!calledFunction) {
+      if (!calledFunction && inspectingBox) {
         calledFunction = true;
         recordConnectedBoxes(inspectingBox);
       }
@@ -137,19 +150,15 @@ const computerMove = {
       // stop the while loop once all twoLineBoxes are inspected
       if (inspectedBoxes.length === numberOfBoxesInspecting) keepGoing = false;
     }
-    // choose a box to click
-    computerMove.chooseBoxToClickInEndGame(connectedBoxCombinations);
+    return connectedBoxCombinations;
   },
   chooseBoxToClickInEndGame: (multiScoreBoxPaths) => {
-    const pathToClickABox = multiScoreBoxPaths.sort((a, b) => a.length - b.length);
-    const letOpponentHaveBox = computerMove.shouldLetHaveBox(pathToClickABox);
-    const pathObj = computerMove.checkForPotentialExtendedPaths(pathToClickABox[0], multiScoreBoxPaths);
-    if (letOpponentHaveBox.letHaveBox) {
-      debugger
-    } else if (pathObj.hasExtendedPaths && extendedPathBoxes.includes(pathObj.extendBox)) {
+    const pathsToClickABox = multiScoreBoxPaths.sort((a, b) => a.length - b.length);
+    const pathObj = computerMove.checkForPotentialExtendedPaths(pathsToClickABox[0], multiScoreBoxPaths);
+    if (pathObj.hasExtendedPaths && extendedPathBoxes.includes(pathObj.extendBox)) {
       computerMove.chooseBoxToClickInEndGame(pathObj.remainingPathsToCheck);
     } else {
-      const boxToClick = task.getRandomIndexInArray(pathToClickABox[0]);
+      const boxToClick = task.getRandomIndexInArray(pathsToClickABox[0]);
       let lineClick;
       Object.keys(gameboardMapper.getGameBoardClickBox(boxToClick).borders).forEach(data => {
         if (gameboardMapper.getGameBoardClickBox(boxToClick).borders[data] === null) {
@@ -207,15 +216,38 @@ const computerMove = {
       extendBox: boxToAdd
     };
   },
-  shouldLetHaveBox: (pathToClickABox) => {
-    const clickBoxInfo = {
-      letHaveBox: false
-    };
+  shouldLetHaveBox: () => {
+    let onePathHasTwoBoxes = false;
+    const pathsToClickABox = computerMove.getPathBoxes();
+    if (pathsToClickABox.length === 2) {
+      debugger
+      pathsToClickABox.forEach(path => {
+        if (path.length === 1) {
+          onePathHasTwoBoxes = !onePathHasTwoBoxes;
+          conserveMoveUsed = true;
+        }
+      })
+    }
+
+    const clickBoxInfo = onePathHasTwoBoxes ? computerMove.chooseLineAndBoxThatDoesNotScore(pathsToClickABox, onePathHasTwoBoxes) : null;
     return clickBoxInfo;
   },
-  dontFillInRemainingBoxes: () => {
-    // if remaing paths is more than 2, dont take the rest of the boxes in the path
-    debugger
+  chooseLineAndBoxThatDoesNotScore: (pathsToClickABox, onePathHasTwoBoxes) => {
+    let sideToClick;
+    const orderedPaths = pathsToClickABox.sort((a, b) => a.length - b.length);
+    const boxToClick = orderedPaths[0][0];
+    const boxHasTwoBorders = boxInfo.getBorderCount(boxToClick);
+    if (boxHasTwoBorders) {
+      // click the edge box
+      sideToClick = boxInfo.edgeBox(boxToClick).clickSide;
+    } else {
+      // take the box
+      onePathHasTwoBoxes = false;
+    }
+    return {
+      boxToClick,
+      sideToClick
+    };
   },
   giveAWayABox: () => {
     return (Math.random() < chanceToGiveAWayPoint);
