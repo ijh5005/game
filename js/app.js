@@ -29,9 +29,6 @@ const debugMode = () => {
 const tryFunction = () => {
   boxInfo.getOneBorderConnectedSurroundingBoxes("box10");
 }
-const onLastBox = () => {
-  return (totalPointsToScore[gameBoardSize] - totalPointsScored) === 1;
-}
 
 let playerOneScore = 0;
 let playerTwoScore = 0;

@@ -23,14 +23,12 @@ const computerMove = {
   },
   getAFreeBox: () => {
     const clickBox = task.getRandomIndexInArray(threeBorderBoxes);
-
-    let clickBoxInfo = computerMove.shouldLetHaveBox();
-
+    const smartClickBoxInfo = computerMove.shouldLetHaveBox();
     Object.keys(gameboardMapper.getGameBoardClickBox(clickBox).borders).forEach(data => {
       if (!gameboardMapper.getGameBoardClickBox(clickBox).borders[data]) {
-        if (clickBoxInfo && conserveMoveUsed) {
-          debugger
-          lineClickAction.clickOnBorder(clickBoxInfo.boxToClick, clickBoxInfo.sideToClick)
+        if (smartClickBoxInfo && smartClickBoxInfo.sideToClick && !conserveMoveUsed) {
+          conserveMoveUsed = true;
+          lineClickAction.clickOnBorder(smartClickBoxInfo.boxToClick, smartClickBoxInfo.sideToClick)
         } else {
           lineClickAction.clickOnBorder(clickBox, data);
         }
@@ -220,11 +218,9 @@ const computerMove = {
     let onePathHasTwoBoxes = false;
     const pathsToClickABox = computerMove.getPathBoxes();
     if (pathsToClickABox.length === 2) {
-      debugger
       pathsToClickABox.forEach(path => {
         if (path.length === 1) {
           onePathHasTwoBoxes = !onePathHasTwoBoxes;
-          conserveMoveUsed = true;
         }
       })
     }
