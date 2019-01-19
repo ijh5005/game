@@ -14,20 +14,23 @@ const complementBorder = {
 }
 const totalPointsToScore = {
   nine: 9,
-  thirtysix: 36
+  thirtysix: 36,
+  onehundred: 100
 }
 const setHelper = (helper) => {
   helperButtonSelected = helper;
 }
 const gameBoardMapperObj = {
   nine,
-  thirtysix
+  thirtysix,
+  onehundred
 }
 const debugMode = () => {
   disableComputer = !disableComputer;
 }
 const tryFunction = () => {
-  boxInfo.getOneBorderConnectedSurroundingBoxes("box10");
+  // animations.animate(1, "explosionImages", 9);
+  animations.animate(2, "explosionImages2", 9);
 }
 
 let playerOneScore = 0;

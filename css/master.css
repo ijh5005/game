@@ -16,6 +16,20 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+.animationContainer {
+  position: relative;
+  top: 33em;
+  left: 4em;
+}
+
+.animation {
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  overflow: auto;
+  height: 10em;
+  width: 10em;
+}
+
 /* container */
 #container {
   /* height: 100vh; */
@@ -46,6 +60,7 @@ body {
   width: 24em;
   /* height: 48em; */
   width: 48em;
+  /* width: 80em; */
   flex-wrap: wrap;
   margin-bottom: 10em;
 }
