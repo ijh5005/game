@@ -12,7 +12,7 @@ const computerMove = {
       } else {
         computerMove.makeMoveInSafeBox();
       }
-    }, 500);
+    }, 400);
   },
   makeMoveInSafeBox: () => { // make a computer move that doesn't allow opponent the score
     if (threeBorderBoxes.length !== 0) computerMove.getAFreeBox();

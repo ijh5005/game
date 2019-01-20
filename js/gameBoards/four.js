@@ -6,7 +6,7 @@
 //  24  25  26  27  28  29
 //  30  31  32  33  34  35
 
-const thirtysix = { // 6 by 6 gameboard
+const thirtysix = {
   box0: {
     borders: {
       top: null,
@@ -27,7 +27,8 @@ const thirtysix = { // 6 by 6 gameboard
         borders: null
       },
       leftBox: null
-    }
+    },
+    isTopLeftCornerBox: true
   },
   box1: {
     borders: {
@@ -53,7 +54,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isTopSideRow: true
   },
   box2: {
     borders: {
@@ -79,7 +81,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isTopSideRow: true
   },
   box3: {
     borders: {
@@ -105,7 +108,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isTopSideRow: true
   },
   box4: {
     borders: {
@@ -131,7 +135,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isTopSideRow: true
   },
   box5: {
     borders: {
@@ -153,7 +158,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isTopRightCornerBox: true
   },
   box6: {
     borders: {
@@ -179,7 +185,8 @@ const thirtysix = { // 6 by 6 gameboard
         borders: null
       },
       leftBox: null
-    }
+    },
+    isLeftSideRow: true
   },
   box7: {
     borders: {
@@ -212,6 +219,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box8: {
+    isMediumExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -242,7 +250,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box9: {
-    isBrick: true,
+    isMediumExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -273,7 +281,6 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box10: {
-    isBrick: true,
     borders: {
       top: null,
       right: null,
@@ -327,7 +334,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isRightSideRow: true
   },
   box12: {
     borders: {
@@ -353,7 +361,8 @@ const thirtysix = { // 6 by 6 gameboard
         borders: null
       },
       leftBox: null
-    }
+    },
+    isLeftSideRow: true
   },
   box13: {
     borders: {
@@ -416,7 +425,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box15: {
-    isBrick: true,
+    isMediumExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -447,7 +456,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box16: {
-    isBrick: true,
+    isMediumExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -501,7 +510,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isRightSideRow: true
   },
   box18: {
     borders: {
@@ -527,7 +537,8 @@ const thirtysix = { // 6 by 6 gameboard
         borders: null
       },
       leftBox: null
-    }
+    },
+    isLeftSideRow: true
   },
   box19: {
     borders: {
@@ -673,7 +684,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isRightSideRow: true
   },
   box24: {
     borders: {
@@ -699,9 +711,11 @@ const thirtysix = { // 6 by 6 gameboard
         borders: null
       },
       leftBox: null
-    }
+    },
+    isLeftSideRow: true
   },
   box25: {
+    isMediumExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -845,7 +859,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isRightSideRow: true
   },
   box30: {
     borders: {
@@ -867,7 +882,8 @@ const thirtysix = { // 6 by 6 gameboard
       },
       bottomBox: null,
       leftBox: null
-    }
+    },
+    isBottomLeftCornerBox: true
   },
   box31: {
     borders: {
@@ -893,7 +909,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isBottomSideRow: true
   },
   box32: {
     borders: {
@@ -919,7 +936,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isBottomSideRow: true
   },
   box33: {
     borders: {
@@ -945,7 +963,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isBottomSideRow: true
   },
   box34: {
     borders: {
@@ -971,7 +990,8 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isBottomSideRow: true
   },
   box35: {
     borders: {
@@ -993,6 +1013,7 @@ const thirtysix = { // 6 by 6 gameboard
         isConnected: true,
         borders: null
       }
-    }
+    },
+    isBottomRightCornerBox: true
   }
 }

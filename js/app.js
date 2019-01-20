@@ -51,4 +51,3 @@ let conserveMoveUsed = false;
 
 ui.populateBoard(); // populate the gameboard into the UI
 gameTimer.startTimer();
-

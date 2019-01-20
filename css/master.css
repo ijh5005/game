@@ -11,9 +11,21 @@
 }
 
 body {
-  background-color: #f8f8f8;
-  background-color: #F5F7FA;
+  /* background-color: #f8f8f8;
+  background-color: #F5F7FA; */
   font-family: 'Montserrat', sans-serif;
+}
+
+.bg {
+  position: absolute;
+  z-index: -1;
+  background-image: url("../bg/desert.jpg");
+  background-size: auto 100%;
+  background-position: center;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
 }
 
 .animationContainer {
@@ -54,7 +66,7 @@ body {
   color: #fff;
 }
 
-.brick {
+.mediumExplosionImage {
   background-image: url("../img/craftpix-990161-free-candy-match-3-game-items/PNG/ico/12.png")
 }
 
@@ -66,7 +78,6 @@ body {
   width: 48em;
   /* width: 80em; */
   flex-wrap: wrap;
-  margin-bottom: 10em;
 }
 
 .box {
@@ -78,12 +89,36 @@ body {
   -moz-box-shadow: 0px 10px 28px -5px rgba(136,136,136,1);
   box-shadow: 0px 10px 28px -5px rgba(136,136,136,1); */
   position: relative;
-  background-color: #e7ebf1;
-  border: 0.2em solid #fff;
+  /* background-color: #e7ebf1; */
+  border: 0.2em solid #fff281;
 
   background-size: 70%;
   background-position: center;
   background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.box::before {
+  content: "";
+  height: 2em;
+  width: 2em;
+  position: absolute;
+  top: -1em;
+  left: -1.2em;
+  background-color: #222;
+  border-radius: 50%;
+}
+
+.box::after {
+  content: "";
+  height: 2em;
+  width: 2em;
+  position: absolute;
+  top: -1em;
+  right: -1.2em;
+  background-color: #222;
+  border-radius: 50%;
 }
 
 .box .explosionBox {
@@ -116,31 +151,53 @@ body {
 }
 
 .borderTop {
-  border-top-color: #394454;
+  border-top-color: #2239bb;
 }
 
 .borderRight {
-  border-right-color: #394454;
+  border-right-color: #2239bb;
 }
 
 .borderBottom {
-  border-bottom-color: #394454;
+  border-bottom-color: #2239bb;
 }
 
 .borderLeft {
-  border-left-color: #394454;
+  border-left-color: #2239bb;
+}
+
+.topLineClicked {
+  border-top-color: #ff4f4f;
+}
+
+.rightLineClicked {
+  border-right-color: #ff4f4f;
+}
+
+.bottomLineClicked {
+  border-bottom-color: #ff4f4f;
+}
+
+.leftLineClicked {
+  border-left-color: #ff4f4f;
 }
 
 .firstPlayerScored {
   /* background-color: #274690; */
-  background-color: #1546a0;
-  background-image: linear-gradient(100deg, #0070ba, #1546a0);
+  /* background-color: #1546a0;
+  background-image: linear-gradient(100deg, #0070ba, #1546a0); */
+
+  background-color: #2e78ff;
+  opacity: 0.8;
 }
 
 .secondPlayerScored {
   /* background-color: #6d80b7; */
-  background-color: #a01515;
-  background-image: linear-gradient(100deg, #ff9494, #a01515);
+  /* background-color: #a01515;
+  background-image: linear-gradient(100deg, #ff9494, #a01515); */
+
+  background-color: #85de61;
+  opacity: 0.8;
 }
 
 .firstPlayerScored p,
@@ -222,4 +279,83 @@ body {
 
 #time {
   margin-left: 4em;
+}
+
+.isTopSideRow {
+  border-top-width: 0.4em;
+}
+
+.isRightSideRow {
+  border-right-width: 0.4em;
+}
+
+.isBottomSideRow {
+  border-bottom-width: 0.4em;
+}
+
+.isLeftSideRow {
+  border-left-width: 0.4em;
+}
+
+.isTopRightCornerBox {
+  border-top-right-radius: 1em;
+  border-top-width: 0.4em;
+  border-right-width: 0.4em;
+}
+
+.isTopLeftCornerBox {
+  border-top-left-radius: 1em;
+  border-top-width: 0.4em;
+  border-left-width: 0.4em;
+}
+
+.isBottomRightCornerBox {
+  border-bottom-right-radius: 1em;
+  border-bottom-width: 0.4em;
+  border-right-width: 0.4em;
+}
+
+.isBottomLeftCornerBox {
+  border-bottom-left-radius: 1em;
+  border-bottom-width: 0.4em;
+  border-left-width: 0.4em;
+}
+
+.isNoBorderBox {
+  width: 8em;
+  user-select: none;
+  /* margin: 0.6em;
+  -webkit-box-shadow: 0px 10px 28px -5px rgba(136,136,136,1);
+  -moz-box-shadow: 0px 10px 28px -5px rgba(136,136,136,1);
+  box-shadow: 0px 10px 28px -5px rgba(136,136,136,1); */
+  position: relative;
+  /* background-color: #e7ebf1; */
+
+  background-size: 70%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.isNoBorderBox::before {
+  content: "";
+  height: 2em;
+  width: 2em;
+  position: absolute;
+  top: -1.2em;
+  left: -1em;
+  background-color: #222;
+  border-radius: 50%;
+}
+
+.isNoBorderBox::after {
+  content: "";
+  height: 2em;
+  width: 2em;
+  position: absolute;
+  top: -1.2em;
+  right: -1em;
+  background-color: #222;
+  border-radius: 50%;
 }

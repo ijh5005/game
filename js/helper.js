@@ -46,9 +46,9 @@ const helper = {
     })
     return noDublicates;
   },
-  removeAllBorders: (box) => {
+  mediumExplosion: (box) => {
     // remove all four borders
-    gameBoard[box].isBrick = false;
+    gameBoard[box].isMediumExplosion = false;
     let counter = 0;
     const removeBorders = setInterval(() => {
       if (counter === 4) {

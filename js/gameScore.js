@@ -15,8 +15,8 @@ const gameScore = {
     const score = (box) => {
       if (!gameScore.hasScored(box)) return null; // check to see if player scored a point
       (isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
-      if(gameBoard[box].isBrick){
-        helper.removeAllBorders(box);
+      if (gameBoard[box].isMediumExplosion) {
+        helper.mediumExplosion(box);
       }
       hasScored = true;
     }

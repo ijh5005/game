@@ -14,9 +14,28 @@ const boxInfo = {
     if (gameBoard[box].borders.bottom) classesToAdd.push("borderBottom");
     if (gameBoard[box].borders.left) classesToAdd.push("borderLeft");
     if (gameBoard[box].whoScored) classesToAdd.push(gameBoard[box].whoScored);
-    if (gameBoard[box].isBrick) {
-      classesToAdd.push("brick");
+    if (gameBoard[box].isMediumExplosion) {
+      classesToAdd.push("mediumExplosionImage");
     }
+
+    if (gameBoard[box].isTopRightCornerBox) {
+      classesToAdd.push("isTopRightCornerBox");
+    } else if (gameBoard[box].isTopLeftCornerBox) {
+      classesToAdd.push("isTopLeftCornerBox");
+    } else if (gameBoard[box].isBottomRightCornerBox) {
+      classesToAdd.push("isBottomRightCornerBox");
+    } else if (gameBoard[box].isBottomLeftCornerBox) {
+      classesToAdd.push("isBottomLeftCornerBox");
+    } else if (gameBoard[box].isTopSideRow) {
+      classesToAdd.push("isTopSideRow");
+    } else if (gameBoard[box].isRightSideRow) {
+      classesToAdd.push("isRightSideRow");
+    } else if (gameBoard[box].isBottomSideRow) {
+      classesToAdd.push("isBottomSideRow");
+    } else if (gameBoard[box].isLeftSideRow) {
+      classesToAdd.push("isLeftSideRow");
+    }
+
     classesToAdd.push("flexRow");
     classesToAdd.push(box);
     return classesToAdd;
