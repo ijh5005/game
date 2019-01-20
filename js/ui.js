@@ -4,11 +4,15 @@ const ui = {
     for (let box in gameBoard) {
       const gridBox = document.createElement("div");
       gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
-      boxInfo.getNumberText(box, gridBox);
+      // boxInfo.getNumberText(box, gridBox);
+      $(gridBox).html(`<div class="explosionBox ${box}Explosion"></div>`)
       gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
         if (!isFirstPlayerTurn) return null; // prevent out of turn clicks
         lineClickAction.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
       });
+      if(gameBoard[box].isBrick){
+        gridBox.classList.add("brick");
+      }
       $("#board").append(gridBox); // add the box to the game board
     }
     gameScore.setScores();

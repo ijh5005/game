@@ -242,6 +242,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box9: {
+    isBrick: true,
     borders: {
       top: null,
       right: null,
@@ -272,6 +273,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box10: {
+    isBrick: true,
     borders: {
       top: null,
       right: null,
@@ -414,6 +416,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box15: {
+    isBrick: true,
     borders: {
       top: null,
       right: null,
@@ -444,6 +447,7 @@ const thirtysix = { // 6 by 6 gameboard
     }
   },
   box16: {
+    isBrick: true,
     borders: {
       top: null,
       right: null,
