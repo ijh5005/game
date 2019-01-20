@@ -57,10 +57,19 @@ const helper = {
         helper.subtractOneBorderFrom(box);
         counter++;
       }
-    })
+    });
+
     $(`.${box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
     setTimeout(() => {
       $(`.${box}Explosion`).addClass("hideExplosion");
     }, 80 * 9);
+
+    const surroundingBoxes = boxInfo.getSurroundingBoxes(box);
+    surroundingBoxes.forEach(surroundingBox => {
+      $(`.${surroundingBox}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
+      setTimeout(() => {
+        $(`.${surroundingBox}Explosion`).addClass("hideExplosion");
+      }, 80 * 9);
+    })
   }
 }
