@@ -5,7 +5,7 @@ const ui = {
       const gridBox = document.createElement("div");
       gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
       // boxInfo.getNumberText(box, gridBox);
-      $(gridBox).html(`<div class="explosionBox ${box}Explosion"></div>`)
+      $(gridBox).html(`<img class="explosionBox ${box}Explosion hideExplosion">`)
       gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
         if (!isFirstPlayerTurn) return null; // prevent out of turn clicks
         lineClickAction.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
