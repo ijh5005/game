@@ -1,8 +1,8 @@
 const lineClickAction = {
   highlightClickedBorder: (offsetX, offsetY, boxNumber, board) => {
     const height = $(".box").height();
-    const upperOutOfBoundsNumber = height - 15;
-    const lowerOutOfBoundsNumber = 15;
+    const upperOutOfBoundsNumber = height - 20;
+    const lowerOutOfBoundsNumber = 20;
     if (lineClickAction.isALineClick(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber)) { // check to see if a line is clicked
       const lineClicked = lineClickAction.getLineClicked(offsetX, offsetY, upperOutOfBoundsNumber, lowerOutOfBoundsNumber); // cache the clicked line
       const hasClickBorderPreviously = (gameBoard[boxNumber].borders[lineClicked] === true);

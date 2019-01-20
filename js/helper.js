@@ -48,30 +48,19 @@ const helper = {
   },
   removeAllBorders: (box) => {
     // remove all four borders
-    // debugger
-    // gameBoard[box].isBrick = false;
-    // const sidesToRemove = ["top", "right", "bottom", "left"]
-    // for(let i = 0; i < 4; i++){
-    //   helper.subtractOneBorderFrom(box, sidesToRemove[i]);
-    // }
     gameBoard[box].isBrick = false;
     let counter = 0;
-    // animations.animate(1, "explosionImages", 9, box);
+    const removeBorders = setInterval(() => {
+      if (counter === 4) {
+        clearInterval(removeBorders)
+      } else {
+        helper.subtractOneBorderFrom(box);
+        counter++;
+      }
+    })
+    $(`.${box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
     setTimeout(() => {
-      const removeBorders = setInterval(() => {
-        if(counter === 4){
-          clearInterval(removeBorders)
-        } else {
-          helper.subtractOneBorderFrom(box);
-          counter++;
-        }
-      })
-    }, 400)
-    setTimeout(() => {
-      $(`.${box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
-      setTimeout(() => {
-        $(`.${box}Explosion`).addClass("hideExplosion");
-      }, 80*9);
-    }, 10)
+      $(`.${box}Explosion`).addClass("hideExplosion");
+    }, 80 * 9);
   }
 }

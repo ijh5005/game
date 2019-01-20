@@ -14,6 +14,9 @@ const boxInfo = {
     if (gameBoard[box].borders.bottom) classesToAdd.push("borderBottom");
     if (gameBoard[box].borders.left) classesToAdd.push("borderLeft");
     if (gameBoard[box].whoScored) classesToAdd.push(gameBoard[box].whoScored);
+    if (gameBoard[box].isBrick) {
+      classesToAdd.push("brick");
+    }
     classesToAdd.push("flexRow");
     classesToAdd.push(box);
     return classesToAdd;

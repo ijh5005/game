@@ -1,19 +1,26 @@
 const ui = {
   populateBoard: () => { // populate the gameboard into the UI
-    document.getElementById("board").innerHTML = ""; // clear the board before rendering it
-    for (let box in gameBoard) {
-      const gridBox = document.createElement("div");
-      gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
-      // boxInfo.getNumberText(box, gridBox);
-      $(gridBox).html(`<img class="explosionBox ${box}Explosion hideExplosion">`)
-      gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
-        if (!isFirstPlayerTurn) return null; // prevent out of turn clicks
-        lineClickAction.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
-      });
-      if(gameBoard[box].isBrick){
-        gridBox.classList.add("brick");
+    // document.getElementById("board").innerHTML = ""; // clear the board before rendering it
+
+    if (document.getElementsByClassName("box").length > 0) {
+      const boxes = document.getElementsByClassName("box");
+      for (let i = 0; i < boxes.length; i++) {
+        const gridBox = boxes[i];
+        gridBox.className = "";
+        gridBox.classList.add(...boxInfo.getAllBoxClasses(`box${i}`));
       }
-      $("#board").append(gridBox); // add the box to the game board
+    } else {
+      for (let box in gameBoard) {
+        const gridBox = document.createElement("div");
+        gridBox.classList.add(...boxInfo.getAllBoxClasses(box));
+        // boxInfo.getNumberText(box, gridBox);
+        $(gridBox).html(`<img class="explosionBox ${box}Explosion hideExplosion">`)
+        gridBox.addEventListener("click", (e) => { // add a click event to the box click on borders
+          if (!isFirstPlayerTurn) return null; // prevent out of turn clicks
+          lineClickAction.highlightClickedBorder(e.offsetX, e.offsetY, box, board);
+        });
+        $("#board").append(gridBox); // add the box to the game board
+      }
     }
     gameScore.setScores();
     boxInfo.adjustBorderCountArrays(); // add boxes with one border to the oneBorderBoxes array, etc...
