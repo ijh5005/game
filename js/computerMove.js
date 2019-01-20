@@ -148,76 +148,56 @@ const computerMove = {
       // stop the while loop once all twoLineBoxes are inspected
       if (inspectedBoxes.length === numberOfBoxesInspecting) keepGoing = false;
     }
+    const replacements = computerMove.combineCircleAndStraigthPathCombinations(connectedBoxCombinations);
+    if (replacements.length) {
+      replacements.map(replace => {
+        connectedBoxCombinations[replace.index] = replace.array;
+      })
+    }
     return connectedBoxCombinations;
+  },
+  combineCircleAndStraigthPathCombinations: (connectedBoxCombinations) => {
+    const replacements = [];
+    boxInfo.adjustBorderCountArrays();
+    if (oneBorderBoxes.length !== 0) {
+      oneBorderBoxes.forEach(box => {
+        const connectedBoxes = boxInfo.getConnectedBoxes(box);
+        connectedBoxCombinations.forEach((paths, index) => {
+          if (helper.hasTwoInArray(connectedBoxes, paths)) {
+            let allPathsHere = [];
+            connectedBoxes.forEach(eachBox => {
+              connectedBoxCombinations.forEach(pathsToGetPathsFrom => {
+                if (pathsToGetPathsFrom.includes(eachBox)) {
+                  allPathsHere = [...allPathsHere, ...pathsToGetPathsFrom];
+                }
+              })
+            })
+            const withRemovedDoubles = helper.removedDoublesFromArray(allPathsHere);
+            replacements.push({
+              array: withRemovedDoubles,
+              index
+            })
+          }
+        });
+      })
+    }
+    return replacements;
   },
   chooseBoxToClickInEndGame: (multiScoreBoxPaths) => {
     const pathsToClickABox = multiScoreBoxPaths.sort((a, b) => a.length - b.length);
-    const pathObj = computerMove.checkForPotentialExtendedPaths(pathsToClickABox[0], multiScoreBoxPaths);
-    if (pathObj.hasExtendedPaths && extendedPathBoxes.includes(pathObj.extendBox)) {
-      computerMove.chooseBoxToClickInEndGame(pathObj.remainingPathsToCheck);
-    } else {
-      const boxToClick = task.getRandomIndexInArray(pathsToClickABox[0]);
-      let lineClick;
-      Object.keys(gameboardMapper.getGameBoardClickBox(boxToClick).borders).forEach(data => {
-        if (gameboardMapper.getGameBoardClickBox(boxToClick).borders[data] === null) {
-          lineClick = data;
-        }
-      });
-      lineClickAction.clickOnBorder(boxToClick, lineClick);
-    }
-  },
-  checkForPotentialExtendedPaths: (path, multiScoreBoxPaths) => {
-    let hasExtendedPaths = false;
-    let boxToAdd;
-    // check if there are any connected box with one border
-    const oneBorderBoxesConnectedToAllBoxesInPath = [];
-    path.forEach(box => {
-      const oneBorderConnectedSurroundingBoxes = boxInfo.getOneBorderConnectedSurroundingBoxes(box);
-      const hasOneBorderConnectedSurroundingBoxes = (oneBorderConnectedSurroundingBoxes.length > 0);
-      const accountedFor = oneBorderBoxesConnectedToAllBoxesInPath.includes(oneBorderConnectedSurroundingBoxes[0]);
-      (hasOneBorderConnectedSurroundingBoxes) ? oneBorderBoxesConnectedToAllBoxesInPath.push(oneBorderConnectedSurroundingBoxes[0]): null;
-      if (hasOneBorderConnectedSurroundingBoxes && accountedFor) {
-        boxToAdd = oneBorderConnectedSurroundingBoxes[0];
-        hasExtendedPaths = true;
+    const boxToClick = task.getRandomIndexInArray(pathsToClickABox[0]);
+    let lineClick;
+    Object.keys(gameboardMapper.getGameBoardClickBox(boxToClick).borders).forEach(data => {
+      if (gameboardMapper.getGameBoardClickBox(boxToClick).borders[data] === null) {
+        lineClick = data;
       }
     });
-
-    let remainingPathsToCheck;
-    if (boxToAdd) {
-      const indexOfPath = multiScoreBoxPaths.indexOf(path);
-      // count that box in its path and any path connected to that box
-      path.push(boxToAdd);
-      const connectedBoxesNotInPath = boxInfo.getConnectedBoxes(boxToAdd).filter(box => !path.includes(box));
-      let pathToCombine = [];
-      const remainingPaths = multiScoreBoxPaths.map((paths, index) => {
-        // if the connected boxes is in a path combine the path with the paths being checked
-        // this means that they are indirectly connected
-        if (index !== indexOfPath) {
-          if (paths.includes(connectedBoxesNotInPath[0])) {
-            pathToCombine = [...paths, ...path]
-          }
-          return paths;
-        }
-        return null;
-      })
-      remainingPathsToCheck = remainingPaths.map(paths => {
-        return (!paths) ? pathToCombine : paths;
-      });
-      extendedPathBoxes.push(boxToAdd);
-    }
-
-    // replace the path in the array with newly created path
-    // retry the path selection process
-    return {
-      hasExtendedPaths,
-      remainingPathsToCheck,
-      extendBox: boxToAdd
-    };
+    lineClickAction.clickOnBorder(boxToClick, lineClick);
   },
   shouldLetHaveBox: () => {
     let onePathHasTwoBoxes = false;
     const pathsToClickABox = computerMove.getPathBoxes();
-    if (pathsToClickABox.length === 2) {
+    if ((pathsToClickABox.length === 2) && (threeBorderBoxes.length === 1)) {
       pathsToClickABox.forEach(path => {
         if (path.length === 1) {
           onePathHasTwoBoxes = !onePathHasTwoBoxes;

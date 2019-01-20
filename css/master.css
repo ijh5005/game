@@ -17,9 +17,9 @@ body {
 }
 
 .animationContainer {
-  position: relative;
+  /* position: relative;
   top: 33em;
-  left: 4em;
+  left: 4em; */
 }
 
 .animation {
