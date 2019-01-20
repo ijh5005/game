@@ -25,11 +25,8 @@ const lineClickAction = {
     gameScore.highlightBoxIfScored(boxNumber);
     let adjacentBox = null;
     let adjBoxNumber = null;
-    const hasAdjacentBox = (gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== null);
+    const hasAdjacentBox = ((gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== null) && (gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`] !== undefined));
     if (hasAdjacentBox) {
-      if (!gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`]) {
-        debugger
-      }
       adjacentBox = gameBoard[boxNumber].surroundingBoxes[`${lineClicked}Box`].boxNumber;
       gameBoard[`box${adjacentBox}`].borders[complementBorder[`${lineClicked}`]] = action;
       gameScore.highlightBoxIfScored(`box${adjacentBox}`);
