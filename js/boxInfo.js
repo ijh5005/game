@@ -16,6 +16,8 @@ const boxInfo = {
     if (gameBoard[box].whoScored) classesToAdd.push(gameBoard[box].whoScored);
     if (gameBoard[box].isMediumExplosion) {
       classesToAdd.push("mediumExplosionImage");
+    } else if (gameBoard[box].isLargeExplosion) {
+      classesToAdd.push("largeExplosionImage");
     }
 
     if (gameBoard[box].isTopRightCornerBox) {

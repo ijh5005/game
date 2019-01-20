@@ -19,7 +19,7 @@ body {
 .bg {
   position: absolute;
   z-index: -1;
-  background-image: url("../bg/desert.jpg");
+  /* background-image: url("../bg/desert.jpg"); */
   background-size: auto 100%;
   background-position: center;
   height: 100vh;
@@ -53,6 +53,20 @@ body {
   height: 10em;
 }
 
+#board {
+  position: relative;
+}
+
+ #boardBackground {
+   position: absolute;
+   top: -5%;
+   left: -5%;
+   height: 110%;
+   width: 110%;
+   opacity: 0.2;
+   background-image: url(../bg/bg2.jpg);
+ }
+
 .helper {
   height: 4em;
   width: 4em;
@@ -67,7 +81,11 @@ body {
 }
 
 .mediumExplosionImage {
-  background-image: url("../img/craftpix-990161-free-candy-match-3-game-items/PNG/ico/12.png")
+  background-image: url("../img/mediumBomb.png")
+}
+
+.largeExplosionImage {
+  background-image: url("../img/largeBomb.png")
 }
 
 /* board */
@@ -91,6 +109,8 @@ body {
   position: relative;
   /* background-color: #e7ebf1; */
   border: 0.2em solid #fff281;
+  border: 0.2em solid #f3655a;
+  border: 0.2em solid #ffa8a2;
 
   background-size: 70%;
   background-position: center;
@@ -151,35 +171,35 @@ body {
 }
 
 .borderTop {
-  border-top-color: #2239bb;
+  border-top-color: #0026ff;
 }
 
 .borderRight {
-  border-right-color: #2239bb;
+  border-right-color: #0026ff;
 }
 
 .borderBottom {
-  border-bottom-color: #2239bb;
+  border-bottom-color: #0026ff;
 }
 
 .borderLeft {
-  border-left-color: #2239bb;
+  border-left-color: #0026ff;
 }
 
 .topLineClicked {
-  border-top-color: #ff4f4f;
+  border-top-color: #fff281;
 }
 
 .rightLineClicked {
-  border-right-color: #ff4f4f;
+  border-right-color: #fff281;
 }
 
 .bottomLineClicked {
-  border-bottom-color: #ff4f4f;
+  border-bottom-color: #fff281;
 }
 
 .leftLineClicked {
-  border-left-color: #ff4f4f;
+  border-left-color: #fff281;
 }
 
 .firstPlayerScored {

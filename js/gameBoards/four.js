@@ -112,6 +112,7 @@ const thirtysix = {
     isTopSideRow: true
   },
   box4: {
+    isLargeExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -281,6 +282,7 @@ const thirtysix = {
     }
   },
   box10: {
+    isLargeExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -541,6 +543,7 @@ const thirtysix = {
     isLeftSideRow: true
   },
   box19: {
+    isLargeExplosion: true,
     borders: {
       top: null,
       right: null,
