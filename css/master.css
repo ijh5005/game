@@ -55,7 +55,7 @@ body {
 }
 
 .brick {
-  background-image: url("../img/craftpix-990161-free-candy-match-3-game-items/PNG/ico/4.png")
+  background-image: url("../img/craftpix-990161-free-candy-match-3-game-items/PNG/ico/12.png")
 }
 
 /* board */
@@ -80,6 +80,10 @@ body {
   position: relative;
   background-color: #e7ebf1;
   border: 0.2em solid #fff;
+
+  background-size: 70%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .box .explosionBox {
