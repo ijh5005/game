@@ -17,6 +17,10 @@ const gameScore = {
       (isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
       if (gameBoard[box].isMediumExplosion) {
         helper.mediumExplosion(box);
+      } else if(gameBoard[box].isLargeExplosion){
+        setTimeout(() => {
+          helper.largerExplosion(box);
+        })
       }
       hasScored = true;
     }

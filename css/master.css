@@ -58,13 +58,14 @@ body {
 }
 
  #boardBackground {
-   position: absolute;
-   top: -5%;
-   left: -5%;
-   height: 110%;
-   width: 110%;
-   opacity: 0.2;
-   background-image: url(../bg/bg2.jpg);
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  height: 110%;
+  width: 110%;
+  background-repeat: no-repeat;
+  background-image: url(../bg/bg4.jpg);
+  background-size: 100% 100%;
  }
 
 .helper {

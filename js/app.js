@@ -29,13 +29,13 @@ const debugMode = () => {
   disableComputer = !disableComputer;
 }
 const tryFunction = () => {
-  // animations.animate(1, "explosionImages", 9);
-  animations.animate(2, "explosionImages2", 9);
+  helper.largerExplosion("box10");
 }
 
 let playerOneScore = 0;
 let playerTwoScore = 0;
 let gameBoardSize = "thirtysix"; // this will be a variable for the user to select
+let rowLength = 6;
 let gameBoard = gameBoardMapperObj[gameBoardSize]; // map the selected gameBoard with its corresponding object
 let hasScored = false;
 let isFirstPlayerTurn = true;

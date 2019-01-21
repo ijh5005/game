@@ -76,4 +76,11 @@ const lineClickAction = {
     if (offsetY > upperOutOfBoundsNumber) return "bottom";
     if (offsetY < lowerOutOfBoundsNumber) return "top";
   },
+  removeBorders: (box, borders) => {
+    borders.forEach(border => {
+      debugger
+      gameBoard[box].borders[border] = null;
+    });
+    ui.populateBoard();
+  },
 }

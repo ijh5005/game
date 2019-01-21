@@ -71,5 +71,43 @@ const helper = {
         $(`.${surroundingBox}Explosion`).addClass("hideExplosion");
       }, 80 * 9);
     })
+  },
+  largerExplosion: (box) => {
+    debugger
+    gameBoard[box].isLargeExplosion = false;
+
+    const boxNumber = parseInt(box.replace("box", ""));
+
+    const topRightBoxNumber = boxNumber - (rowLength - 1);
+    const topLeftBoxNumber = boxNumber - (rowLength + 1);
+    const bottomRightBoxNumber = boxNumber + (rowLength + 1);
+    const bottomLeftBoxNumber = boxNumber + (rowLength - 1);
+
+    const topBox = boxNumber - rowLength;
+    const leftBox = boxNumber - 1;
+    const bottomBox = boxNumber + rowLength;
+    const rightBox = boxNumber + 1;
+
+    const bordersToRemove = [
+      { box: `box${boxNumber}`, borders: ["top", "right", "bottom", "left"] },
+      { box: `box${topRightBoxNumber}`, borders: ["bottom", "left"] },
+      { box: `box${topLeftBoxNumber}`, borders: ["right", "bottom"] },
+      { box: `box${bottomRightBoxNumber}`, borders: ["top", "left"] },
+      { box: `box${bottomLeftBoxNumber}`, borders: ["top", "right"] },
+      { box: `box${topBox}`, borders: ["right", "bottom", "left"] },
+      { box: `box${leftBox}`, borders: ["top", "right", "bottom"] },
+      { box: `box${bottomBox}`, borders: ["top", "right", "left"] },
+      { box: `box${rightBox}`, borders: ["top", "bottom", "left"] },
+    ]
+
+    bordersToRemove.forEach(item => {
+      lineClickAction.removeBorders(item.box, item.borders);
+      ui.removeScoreColorIfRemovingBorder(item.box, true);
+      $(`.${item.box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/largeExplosion.gif");
+        setTimeout(() => {
+          $(`.${item.box}Explosion`).addClass("hideExplosion");
+        }, 80 * 8);
+    });
+
   }
 }
