@@ -57,7 +57,8 @@ body {
   position: relative;
 }
 
- #boardBackground {
+#boardBackground {
+  opacity: 0.4;
   position: absolute;
   top: -5%;
   left: -5%;
@@ -188,19 +189,37 @@ body {
 }
 
 .topLineClicked {
-  border-top-color: #fff281;
+  border-top-color: #84A1D8;
 }
 
 .rightLineClicked {
-  border-right-color: #fff281;
+  border-right-color: #84A1D8;
 }
 
 .bottomLineClicked {
-  border-bottom-color: #fff281;
+  border-bottom-color: #84A1D8;
 }
 
 .leftLineClicked {
-  border-left-color: #fff281;
+  border-left-color: #84A1D8;
+}
+
+.topLineClicked,
+.rightLineClicked,
+.bottomLineClicked,
+.leftLineClicked {
+  position: relative;
+}
+
+.topLineClicked::after,
+.rightLineClicked::after,
+.bottomLineClicked::after,
+.leftLineClicked::after {
+  content: "";
+  background-color: #84A1D8;
+  position: absolute;
+  top: 2.7em;
+  left: 2.6em;
 }
 
 .firstPlayerScored {

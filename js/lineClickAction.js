@@ -78,7 +78,6 @@ const lineClickAction = {
   },
   removeBorders: (box, borders) => {
     borders.forEach(border => {
-      debugger
       gameBoard[box].borders[border] = null;
     });
     ui.populateBoard();

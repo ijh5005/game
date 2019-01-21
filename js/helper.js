@@ -73,40 +73,112 @@ const helper = {
     })
   },
   largerExplosion: (box) => {
-    debugger
     gameBoard[box].isLargeExplosion = false;
 
     const boxNumber = parseInt(box.replace("box", ""));
 
-    const topRightBoxNumber = boxNumber - (rowLength - 1);
-    const topLeftBoxNumber = boxNumber - (rowLength + 1);
-    const bottomRightBoxNumber = boxNumber + (rowLength + 1);
-    const bottomLeftBoxNumber = boxNumber + (rowLength - 1);
+    let topRightBoxNumber = boxNumber - (rowLength - 1);
+    let topLeftBoxNumber = boxNumber - (rowLength + 1);
+    let bottomRightBoxNumber = boxNumber + (rowLength + 1);
+    let bottomLeftBoxNumber = boxNumber + (rowLength - 1);
 
-    const topBox = boxNumber - rowLength;
-    const leftBox = boxNumber - 1;
-    const bottomBox = boxNumber + rowLength;
-    const rightBox = boxNumber + 1;
+    let topBox = boxNumber - rowLength;
+    let leftBox = boxNumber - 1;
+    let bottomBox = boxNumber + rowLength;
+    let rightBox = boxNumber + 1;
 
-    const bordersToRemove = [
-      { box: `box${boxNumber}`, borders: ["top", "right", "bottom", "left"] },
-      { box: `box${topRightBoxNumber}`, borders: ["bottom", "left"] },
-      { box: `box${topLeftBoxNumber}`, borders: ["right", "bottom"] },
-      { box: `box${bottomRightBoxNumber}`, borders: ["top", "left"] },
-      { box: `box${bottomLeftBoxNumber}`, borders: ["top", "right"] },
-      { box: `box${topBox}`, borders: ["right", "bottom", "left"] },
-      { box: `box${leftBox}`, borders: ["top", "right", "bottom"] },
-      { box: `box${bottomBox}`, borders: ["top", "right", "left"] },
-      { box: `box${rightBox}`, borders: ["top", "bottom", "left"] },
+    const bordersToRemove = [{
+        box: `box${boxNumber}`,
+        borders: ["top", "right", "bottom", "left"]
+      },
+      {
+        box: `box${topRightBoxNumber}`,
+        borders: ["bottom", "left"]
+      },
+      {
+        box: `box${topLeftBoxNumber}`,
+        borders: ["right", "bottom"]
+      },
+      {
+        box: `box${bottomRightBoxNumber}`,
+        borders: ["top", "left"]
+      },
+      {
+        box: `box${bottomLeftBoxNumber}`,
+        borders: ["top", "right"]
+      },
+      {
+        box: `box${topBox}`,
+        borders: ["right", "bottom", "left"]
+      },
+      {
+        box: `box${leftBox}`,
+        borders: ["top", "right", "bottom"]
+      },
+      {
+        box: `box${bottomBox}`,
+        borders: ["top", "right", "left"]
+      },
+      {
+        box: `box${rightBox}`,
+        borders: ["top", "bottom", "left"]
+      },
     ]
 
+
+
+
+    if (gameBoard[box].isTopSideRow || !gameBoard[box]) {
+      topBox = null;
+      topRightBoxNumber = null;
+      topLeftBoxNumber = null;
+    } else if (gameBoard[box].isRightSideRow || !gameBoard[box]) {
+      rightBox = null;
+      topRightBoxNumber = null;
+      bottomRightBoxNumber = null;
+    } else if (gameBoard[box].isBottomSideRow || !gameBoard[box]) {
+      bottomBox = null;
+      bottomRightBoxNumber = null;
+      bottomLeftBoxNumber = null;
+    } else if (gameBoard[box].isLeftSideRow || !gameBoard[box]) {
+      leftBox = null;
+      topLeftBoxNumber = null;
+      bottomLeftBoxNumber = null;
+    } else if (gameBoard[box].isTopLeftCornerBox || !gameBoard[box]) {
+      topBox = null;
+      leftBox = null;
+      topLeftBoxNumber = null;
+    } else if (gameBoard[box].isTopRightCornerBox || !gameBoard[box]) {
+      topBox = null;
+      rightBox = null;
+      topRightBoxNumber = null;
+      topLeftBoxNumber = null;
+      bottomRightBoxNumber = null;
+    } else if (gameBoard[box].isBottomLeftCornerBox || !gameBoard[box]) {
+      bottomBox = null;
+      leftBox = null;
+      topLeftBoxNumber = null;
+      bottomRightBoxNumber = null;
+      bottomLeftBoxNumber = null;
+    } else if (gameBoard[box].isBottomRightCornerBox || !gameBoard[box]) {
+      bottomBox = null;
+      rightBox = null;
+      topRightBoxNumber = null;
+      bottomRightBoxNumber = null;
+      bottomLeftBoxNumber = null;
+    }
+
+
+
     bordersToRemove.forEach(item => {
-      lineClickAction.removeBorders(item.box, item.borders);
-      ui.removeScoreColorIfRemovingBorder(item.box, true);
-      $(`.${item.box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/largeExplosion.gif");
+      if (item.box) {
+        lineClickAction.removeBorders(item.box, item.borders);
+        ui.removeScoreColorIfRemovingBorder(item.box, true);
+        $(`.${item.box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/largeExplosion.gif");
         setTimeout(() => {
           $(`.${item.box}Explosion`).addClass("hideExplosion");
         }, 80 * 8);
+      }
     });
 
   }
