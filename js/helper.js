@@ -87,47 +87,6 @@ const helper = {
     let bottomBox = boxNumber + rowLength;
     let rightBox = boxNumber + 1;
 
-    const bordersToRemove = [{
-        box: `box${boxNumber}`,
-        borders: ["top", "right", "bottom", "left"]
-      },
-      {
-        box: `box${topRightBoxNumber}`,
-        borders: ["bottom", "left"]
-      },
-      {
-        box: `box${topLeftBoxNumber}`,
-        borders: ["right", "bottom"]
-      },
-      {
-        box: `box${bottomRightBoxNumber}`,
-        borders: ["top", "left"]
-      },
-      {
-        box: `box${bottomLeftBoxNumber}`,
-        borders: ["top", "right"]
-      },
-      {
-        box: `box${topBox}`,
-        borders: ["right", "bottom", "left"]
-      },
-      {
-        box: `box${leftBox}`,
-        borders: ["top", "right", "bottom"]
-      },
-      {
-        box: `box${bottomBox}`,
-        borders: ["top", "right", "left"]
-      },
-      {
-        box: `box${rightBox}`,
-        borders: ["top", "bottom", "left"]
-      },
-    ]
-
-
-
-
     if (gameBoard[box].isTopSideRow || !gameBoard[box]) {
       topBox = null;
       topRightBoxNumber = null;
@@ -168,10 +127,46 @@ const helper = {
       bottomLeftBoxNumber = null;
     }
 
-
+    const bordersToRemove = [{
+        box: `box${boxNumber}`,
+        borders: ["top", "right", "bottom", "left"]
+      },
+      {
+        box: `box${topRightBoxNumber}`,
+        borders: ["bottom", "left"]
+      },
+      {
+        box: `box${topLeftBoxNumber}`,
+        borders: ["right", "bottom"]
+      },
+      {
+        box: `box${bottomRightBoxNumber}`,
+        borders: ["top", "left"]
+      },
+      {
+        box: `box${bottomLeftBoxNumber}`,
+        borders: ["top", "right"]
+      },
+      {
+        box: `box${topBox}`,
+        borders: ["right", "bottom", "left"]
+      },
+      {
+        box: `box${leftBox}`,
+        borders: ["top", "right", "bottom"]
+      },
+      {
+        box: `box${bottomBox}`,
+        borders: ["top", "right", "left"]
+      },
+      {
+        box: `box${rightBox}`,
+        borders: ["top", "bottom", "left"]
+      }
+    ]
 
     bordersToRemove.forEach(item => {
-      if (item.box) {
+      if (item.box !== "boxnull") {
         lineClickAction.removeBorders(item.box, item.borders);
         ui.removeScoreColorIfRemovingBorder(item.box, true);
         $(`.${item.box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/largeExplosion.gif");
