@@ -157,5 +157,170 @@ const boxInfo = {
       }
     })
     return connectedBoxes;
+  },
+  getAllBorders: (box) => {
+    return {
+      topRightBoxNumber: boxInfo.getTopRightBoxNumber(box),
+      topLeftBoxNumber: boxInfo.getTopLeftBoxNumber(box),
+      bottomRightBoxNumber: boxInfo.getBottomRightBoxNumber(box),
+      bottomLeftBoxNumber: boxInfo.getBottomLeftBoxNumber(box),
+      topBox: boxInfo.getTopBox(box),
+      leftBox: boxInfo.getLeftBox(box),
+      bottomBox: boxInfo.getBottomBox(box),
+      rightBox: boxInfo.getRightBox(box)
+    }
+  },
+  getTopRightBoxNumber: (box) => {
+    const topRightBoxNumber = box - (rowLength - 1);
+    return boxInfo.hasTopRightBoxNumber(`box${topRightBoxNumber}`, `box${box}`) ? `box${topRightBoxNumber}` : false;
+  },
+  getTopLeftBoxNumber: (box) => {
+    const topLeftBoxNumber = box - (rowLength + 1);
+    return boxInfo.hasTopLeftBoxNumber(`box${topLeftBoxNumber}`, `box${box}`) ? `box${topLeftBoxNumber}` : false;
+  },
+  getBottomRightBoxNumber: (box) => {
+    const bottomRightBoxNumber = box + (rowLength + 1);
+    return boxInfo.hasBottomRightBoxNumber(`box${bottomRightBoxNumber}`, `box${box}`) ? `box${bottomRightBoxNumber}` : false;
+  },
+  getBottomLeftBoxNumber: (box) => {
+    const bottomLeftBoxNumber = box + (rowLength - 1);
+    return boxInfo.hasBottomLeftBoxNumber(`box${bottomLeftBoxNumber}`, `box${box}`) ? `box${bottomLeftBoxNumber}` : false;
+  },
+  getTopBox: (box) => {
+    const topBox = box - rowLength;
+    return boxInfo.hasTopBox(`box${topBox}`, `box${box}`) ? `box${topBox}` : false;
+  },
+  getLeftBox: (box) => {
+    const leftBox = box - 1;
+    return boxInfo.hasLeftBox(`box${leftBox}`, `box${box}`) ? `box${leftBox}` : false;
+  },
+  getBottomBox: (box) => {
+    const bottomBox = box + rowLength;
+    return boxInfo.hasBottomBox(`box${bottomBox}`, `box${box}`) ? `box${bottomBox}` : false;
+  },
+  getRightBox: (box) => {
+    const rightBox = box + 1;
+    return boxInfo.hasRightBox(`box${rightBox}`, `box${box}`) ? `box${rightBox}` : false;
+  },
+  hasTopRightBoxNumber: (topRightBoxNumber, box) => {
+    return (
+      gameBoard[topRightBoxNumber] &&
+      !gameBoard[box].isTopRightCornerBox &&
+      !gameBoard[box].isTopSideRow &&
+      !gameBoard[box].isTopLeftCornerBox &&
+      !gameBoard[box].isRightSideRow &&
+      !gameBoard[box].isBottomRightCornerBox
+    )
+  },
+  hasTopLeftBoxNumber: (topLeftBoxNumber, box) => {
+    return (
+      gameBoard[topLeftBoxNumber] &&
+      !gameBoard[box].isTopSideRow &&
+      !gameBoard[box].isTopLeftCornerBox &&
+      !gameBoard[box].isTopRightCornerBox &&
+      !gameBoard[box].isLeftSideRow &&
+      !gameBoard[box].isBottomLeftCornerBox
+    )
+  },
+  hasBottomRightBoxNumber: (bottomRightBoxNumber, box) => {
+    return (
+      gameBoard[bottomRightBoxNumber] &&
+      !gameBoard[box].isTopRightCornerBox &&
+      !gameBoard[box].isRightSideRow &&
+      !gameBoard[box].isBottomRightCornerBox &&
+      !gameBoard[box].isBottomSideRow &&
+      !gameBoard[box].isBottomLeftCornerBox
+    )
+  },
+  hasBottomLeftBoxNumber: (bottomLeftBoxNumber, box) => {
+    return (
+      gameBoard[bottomLeftBoxNumber] &&
+      !gameBoard[box].isTopLeftCornerBox &&
+      !gameBoard[box].isLeftSideRow &&
+      !gameBoard[box].isBottomLeftCornerBox &&
+      !gameBoard[box].isBottomSideRow &&
+      !gameBoard[box].isBottomRightCornerBox
+    )
+  },
+  hasTopBox: (topBox, box) => {
+    return (
+      gameBoard[topBox] &&
+      !gameBoard[box].isTopRightCornerBox &&
+      !gameBoard[box].isTopSideRow &&
+      !gameBoard[box].isTopLeftCornerBox
+    )
+  },
+  hasLeftBox: (leftBox, box) => {
+    return (
+      gameBoard[leftBox] &&
+      !gameBoard[box].isTopLeftCornerBox &&
+      !gameBoard[box].isLeftSideRow &&
+      !gameBoard[box].isBottomLeftCornerBox
+    )
+  },
+  hasBottomBox: (bottomBox, box) => {
+    return (
+      gameBoard[bottomBox] &&
+      !gameBoard[box].isBottomLeftCornerBox &&
+      !gameBoard[box].isBottomSideRow &&
+      !gameBoard[box].isBottomRightCornerBox
+    )
+  },
+  hasRightBox: (rightBox, box) => {
+    return (
+      gameBoard[rightBox] &&
+      !gameBoard[box].isTopRightCornerBox &&
+      !gameBoard[box].isRightSideRow &&
+      !gameBoard[box].isBottomRightCornerBox
+    )
+  },
+  getBordersToRemove: (
+    box, {
+      topRightBoxNumber,
+      topLeftBoxNumber,
+      bottomRightBoxNumber,
+      bottomLeftBoxNumber,
+      topBox,
+      leftBox,
+      bottomBox,
+      rightBox
+    }) => {
+    return [{
+        box: box,
+        borders: ["top", "right", "bottom", "left"]
+      },
+      {
+        box: topRightBoxNumber,
+        borders: ["bottom", "left"]
+      },
+      {
+        box: topLeftBoxNumber,
+        borders: ["right", "bottom"]
+      },
+      {
+        box: bottomRightBoxNumber,
+        borders: ["top", "left"]
+      },
+      {
+        box: bottomLeftBoxNumber,
+        borders: ["top", "right"]
+      },
+      {
+        box: topBox,
+        borders: ["right", "bottom", "left"]
+      },
+      {
+        box: leftBox,
+        borders: ["top", "right", "bottom"]
+      },
+      {
+        box: bottomBox,
+        borders: ["top", "right", "left"]
+      },
+      {
+        box: rightBox,
+        borders: ["top", "bottom", "left"]
+      }
+    ];
   }
 }

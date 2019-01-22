@@ -46,133 +46,45 @@ const helper = {
     })
     return noDublicates;
   },
-  mediumExplosion: (box) => {
-    // remove all four borders
-    gameBoard[box].isMediumExplosion = false;
-    let counter = 0;
-    const removeBorders = setInterval(() => {
-      if (counter === 4) {
-        clearInterval(removeBorders)
-      } else {
-        helper.subtractOneBorderFrom(box);
-        counter++;
-      }
-    });
-
-    $(`.${box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
+  showExplosionInBox: (box, type) => {
+    $(`.${box}Explosion`).removeClass("hideExplosion").attr("src", `./gifs/${type}.gif`);
     setTimeout(() => {
       $(`.${box}Explosion`).addClass("hideExplosion");
-    }, 80 * 9);
-
-    const surroundingBoxes = boxInfo.getSurroundingBoxes(box);
-    surroundingBoxes.forEach(surroundingBox => {
-      $(`.${surroundingBox}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/smoke.gif");
-      setTimeout(() => {
-        $(`.${surroundingBox}Explosion`).addClass("hideExplosion");
-      }, 80 * 9);
-    })
+    }, 80 * 8);
   },
-  largerExplosion: (box) => {
-    gameBoard[box].isLargeExplosion = false;
+  mediumExplosion: (box) => {
+    // removes the bomb image from the box after the ui is populated
+    gameBoard[box].isMediumExplosion = false;
 
-    const boxNumber = parseInt(box.replace("box", ""));
-
-    let topRightBoxNumber = boxNumber - (rowLength - 1);
-    let topLeftBoxNumber = boxNumber - (rowLength + 1);
-    let bottomRightBoxNumber = boxNumber + (rowLength + 1);
-    let bottomLeftBoxNumber = boxNumber + (rowLength - 1);
-
-    let topBox = boxNumber - rowLength;
-    let leftBox = boxNumber - 1;
-    let bottomBox = boxNumber + rowLength;
-    let rightBox = boxNumber + 1;
-
-    if (gameBoard[box].isTopSideRow || !gameBoard[box]) {
-      topBox = null;
-      topRightBoxNumber = null;
-      topLeftBoxNumber = null;
-    } else if (gameBoard[box].isRightSideRow || !gameBoard[box]) {
-      rightBox = null;
-      topRightBoxNumber = null;
-      bottomRightBoxNumber = null;
-    } else if (gameBoard[box].isBottomSideRow || !gameBoard[box]) {
-      bottomBox = null;
-      bottomRightBoxNumber = null;
-      bottomLeftBoxNumber = null;
-    } else if (gameBoard[box].isLeftSideRow || !gameBoard[box]) {
-      leftBox = null;
-      topLeftBoxNumber = null;
-      bottomLeftBoxNumber = null;
-    } else if (gameBoard[box].isTopLeftCornerBox || !gameBoard[box]) {
-      topBox = null;
-      leftBox = null;
-      topLeftBoxNumber = null;
-    } else if (gameBoard[box].isTopRightCornerBox || !gameBoard[box]) {
-      topBox = null;
-      rightBox = null;
-      topRightBoxNumber = null;
-      topLeftBoxNumber = null;
-      bottomRightBoxNumber = null;
-    } else if (gameBoard[box].isBottomLeftCornerBox || !gameBoard[box]) {
-      bottomBox = null;
-      leftBox = null;
-      topLeftBoxNumber = null;
-      bottomRightBoxNumber = null;
-      bottomLeftBoxNumber = null;
-    } else if (gameBoard[box].isBottomRightCornerBox || !gameBoard[box]) {
-      bottomBox = null;
-      rightBox = null;
-      topRightBoxNumber = null;
-      bottomRightBoxNumber = null;
-      bottomLeftBoxNumber = null;
+    // removes all 4 borders from the bomb for
+    const numberOfBorders = 4;
+    for (let i = 0; i < numberOfBorders; i++) {
+      setTimeout(() => helper.subtractOneBorderFrom(box))
     }
 
-    const bordersToRemove = [{
-        box: `box${boxNumber}`,
-        borders: ["top", "right", "bottom", "left"]
-      },
-      {
-        box: `box${topRightBoxNumber}`,
-        borders: ["bottom", "left"]
-      },
-      {
-        box: `box${topLeftBoxNumber}`,
-        borders: ["right", "bottom"]
-      },
-      {
-        box: `box${bottomRightBoxNumber}`,
-        borders: ["top", "left"]
-      },
-      {
-        box: `box${bottomLeftBoxNumber}`,
-        borders: ["top", "right"]
-      },
-      {
-        box: `box${topBox}`,
-        borders: ["right", "bottom", "left"]
-      },
-      {
-        box: `box${leftBox}`,
-        borders: ["top", "right", "bottom"]
-      },
-      {
-        box: `box${bottomBox}`,
-        borders: ["top", "right", "left"]
-      },
-      {
-        box: `box${rightBox}`,
-        borders: ["top", "bottom", "left"]
-      }
-    ]
+    // make boxes explode
+    const explodingBoxes = [box, ...boxInfo.getSurroundingBoxes(box)];
+    explodingBoxes.forEach(explodingBox => helper.showExplosionInBox(explodingBox, "smoke"));
+  },
+  largerExplosion: (box) => {
+    // removes the bomb image from the box after the ui is populated
+    gameBoard[box].isLargeExplosion = false;
 
+    // cache box number
+    const boxNumber = parseInt(box.replace("box", ""));
+
+    // get all boxes surrounding boxes
+    const allBorders = boxInfo.getAllBorders(boxNumber);
+
+    // get borders to remove according to the largerExplosion rules
+    const bordersToRemove = boxInfo.getBordersToRemove(box, allBorders);
+
+    // make boxes explode
     bordersToRemove.forEach(item => {
-      if (item.box !== "boxnull") {
+      if (item.box) {
         lineClickAction.removeBorders(item.box, item.borders);
         ui.removeScoreColorIfRemovingBorder(item.box, true);
-        $(`.${item.box}Explosion`).removeClass("hideExplosion").attr("src", "./gifs/largeExplosion.gif");
-        setTimeout(() => {
-          $(`.${item.box}Explosion`).addClass("hideExplosion");
-        }, 80 * 8);
+        helper.showExplosionInBox(item.box, "largeExplosion");
       }
     });
 
