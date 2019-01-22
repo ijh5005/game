@@ -5,7 +5,6 @@ const oneBorderBoxes = [];
 const twoBorderBoxes = [];
 const threeBorderBoxes = [];
 const extendedPathBoxes = [];
-const chanceToGiveAWayPoint = 0.1;
 const complementBorder = {
   top: "bottom",
   right: "left",
@@ -48,6 +47,18 @@ let totalPointsScored = 0;
 let turnNumber = 0;
 let calculatedTotalTurns = totalPointsToScore[gameBoardSize] * 4;
 let conserveMoveUsed = false;
+
+let chanceToGiveAWayPoint;
+let isEasyDifficulty = false;
+let isMediumDifficulty = false;
+let isHardDifficulty = true;
+if(isEasyDifficulty){
+  chanceToGiveAWayPoint = 0.4;
+} else if(isMediumDifficulty){
+  chanceToGiveAWayPoint = 0.2;
+} else if(isHardDifficulty){
+  chanceToGiveAWayPoint = 0.01;
+}
 
 ui.populateBoard(); // populate the gameboard into the UI
 gameTimer.startTimer();

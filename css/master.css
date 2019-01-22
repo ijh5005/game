@@ -204,24 +204,6 @@ body {
   border-left-color: #84A1D8;
 }
 
-.topLineClicked,
-.rightLineClicked,
-.bottomLineClicked,
-.leftLineClicked {
-  position: relative;
-}
-
-.topLineClicked::after,
-.rightLineClicked::after,
-.bottomLineClicked::after,
-.leftLineClicked::after {
-  content: "";
-  background-color: #84A1D8;
-  position: absolute;
-  top: 2.7em;
-  left: 2.6em;
-}
-
 .firstPlayerScored {
   /* background-color: #274690; */
   /* background-color: #1546a0;
