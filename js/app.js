@@ -28,7 +28,7 @@ const debugMode = () => {
   disableComputer = !disableComputer;
 }
 const tryFunction = () => {
-  helper.largerExplosion("box10");
+  helper.isVeryLargeExplosion();
 }
 
 let playerOneScore = 0;
@@ -52,11 +52,11 @@ let chanceToGiveAWayPoint;
 let isEasyDifficulty = false;
 let isMediumDifficulty = false;
 let isHardDifficulty = true;
-if(isEasyDifficulty){
+if (isEasyDifficulty) {
   chanceToGiveAWayPoint = 0.4;
-} else if(isMediumDifficulty){
+} else if (isMediumDifficulty) {
   chanceToGiveAWayPoint = 0.2;
-} else if(isHardDifficulty){
+} else if (isHardDifficulty) {
   chanceToGiveAWayPoint = 0.01;
 }
 

@@ -17,10 +17,16 @@ const gameScore = {
       (isFirstPlayerTurn) ? playerOneScore++ : playerTwoScore++;
       if (gameBoard[box].isMediumExplosion) {
         helper.mediumExplosion(box);
-      } else if(gameBoard[box].isLargeExplosion){
+      } else if (gameBoard[box].isLargeExplosion) {
         setTimeout(() => {
           helper.largerExplosion(box);
         })
+      } else if (gameBoard[box].isVerticalExplosion) {
+        helper.verticalExplosion(box);
+      } else if (gameBoard[box].isHorizontalExplosion) {
+        helper.horizontalExplosion(box);
+      } else if (gameBoard[box].isVeryLargeExplosion) {
+        helper.isVeryLargeExplosion(box);
       }
       hasScored = true;
     }

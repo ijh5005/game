@@ -18,6 +18,10 @@ const boxInfo = {
       classesToAdd.push("mediumExplosionImage");
     } else if (gameBoard[box].isLargeExplosion) {
       classesToAdd.push("largeExplosionImage");
+    } else if (gameBoard[box].isVerticalExplosion) {
+      classesToAdd.push("verticalExplosionImage");
+    } else if (gameBoard[box].isHorizontalExplosion) {
+      classesToAdd.push("horizontalExplosionImage");
     }
 
     if (gameBoard[box].isTopRightCornerBox) {

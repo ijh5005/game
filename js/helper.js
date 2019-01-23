@@ -87,6 +87,76 @@ const helper = {
         helper.showExplosionInBox(item.box, "largeExplosion");
       }
     });
+  },
+  verticalExplosion: (box) => {
+    // removes the bomb image from the box after the ui is populated
+    gameBoard[box].isVerticalExplosion = false;
 
+    // cache box number
+    const boxNumber = parseInt(box.replace("box", ""));
+    // cache boxes to target
+    const linesToRemove = [{
+        box: boxInfo.getTopBox(boxNumber),
+        lines: ["bottom"]
+      },
+      {
+        box: boxInfo.getBottomBox(boxNumber),
+        lines: ["top"]
+      },
+      {
+        box: box,
+        lines: ["top", "bottom"]
+      }
+    ];
+    // make boxes explode
+    linesToRemove.forEach(item => {
+      if (item.box) {
+        lineClickAction.removeBorders(item.box, item.lines);
+        ui.removeScoreColorIfRemovingBorder(item.box, true);
+        helper.showExplosionInBox(item.box, "smallExplosion");
+      }
+    });
+  },
+  horizontalExplosion: (box) => {
+    // removes the bomb image from the box after the ui is populated
+    gameBoard[box].isVerticalExplosion = false;
+
+    // cache box number
+    const boxNumber = parseInt(box.replace("box", ""));
+    // cache boxes to target
+    const linesToRemove = [{
+        box: boxInfo.getRightBox(boxNumber),
+        lines: ["left"]
+      },
+      {
+        box: boxInfo.getLeftBox(boxNumber),
+        lines: ["right"]
+      },
+      {
+        box: box,
+        lines: ["right", "left"]
+      }
+    ];
+    // make boxes explode
+    linesToRemove.forEach(item => {
+      if (item.box) {
+        lineClickAction.removeBorders(item.box, item.lines);
+        ui.removeScoreColorIfRemovingBorder(item.box, true);
+        helper.showExplosionInBox(item.box, "smallExplosion");
+      }
+    });
+  },
+  isVeryLargeExplosion: () => {
+    for (let item in gameBoard) {
+      gameBoard[item].borders = {
+        top: null,
+        right: null,
+        bottom: null,
+        left: null
+      }
+      ui.removeScoreColorIfRemovingBorder(item, true);
+      helper.showExplosionInBox(item, "veryLargeExplosion");
+    }
+    ui.populateBoard();
   }
 }
