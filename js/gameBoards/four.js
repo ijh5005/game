@@ -190,6 +190,7 @@ const thirtysix = {
     isLeftSideRow: true
   },
   box7: {
+    isVeryLargeExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -574,6 +575,7 @@ const thirtysix = {
     }
   },
   box20: {
+    isHorizontalExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -691,6 +693,7 @@ const thirtysix = {
     isRightSideRow: true
   },
   box24: {
+    isVerticalExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -809,6 +812,7 @@ const thirtysix = {
     }
   },
   box28: {
+    isVerticalExplosion: true,
     borders: {
       top: null,
       right: null,
@@ -997,6 +1001,7 @@ const thirtysix = {
     isBottomSideRow: true
   },
   box35: {
+    isHorizontalExplosion: true,
     borders: {
       top: null,
       right: null,

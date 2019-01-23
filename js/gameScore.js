@@ -22,11 +22,17 @@ const gameScore = {
           helper.largerExplosion(box);
         })
       } else if (gameBoard[box].isVerticalExplosion) {
-        helper.verticalExplosion(box);
+        setTimeout(() => {
+          helper.verticalExplosion(box);
+        })
       } else if (gameBoard[box].isHorizontalExplosion) {
-        helper.horizontalExplosion(box);
+        setTimeout(() => {
+          helper.horizontalExplosion(box);
+        })
       } else if (gameBoard[box].isVeryLargeExplosion) {
-        helper.isVeryLargeExplosion(box);
+        setTimeout(() => {
+          helper.isVeryLargeExplosion(box);
+        })
       }
       hasScored = true;
     }

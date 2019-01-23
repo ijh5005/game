@@ -119,7 +119,7 @@ const helper = {
   },
   horizontalExplosion: (box) => {
     // removes the bomb image from the box after the ui is populated
-    gameBoard[box].isVerticalExplosion = false;
+    gameBoard[box].isHorizontalExplosion = false;
 
     // cache box number
     const boxNumber = parseInt(box.replace("box", ""));
@@ -146,7 +146,10 @@ const helper = {
       }
     });
   },
-  isVeryLargeExplosion: () => {
+  isVeryLargeExplosion: (box) => {
+    // removes the bomb image from the box after the ui is populated
+    gameBoard[box].isVeryLargeExplosion = false;
+
     for (let item in gameBoard) {
       gameBoard[item].borders = {
         top: null,
@@ -155,6 +158,8 @@ const helper = {
         left: null
       }
       ui.removeScoreColorIfRemovingBorder(item, true);
+    }
+    for (let item in gameBoard) {
       helper.showExplosionInBox(item, "veryLargeExplosion");
     }
     ui.populateBoard();

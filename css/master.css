@@ -90,6 +90,18 @@ body {
   background-image: url("../img/largeBomb.png")
 }
 
+.verticalExplosionImage {
+  background-image: url("../img/small.png")
+}
+
+.horizontalExplosionImage {
+  background-image: url("../img/small.png")
+}
+
+.veryLargeExplosionImage {
+  background-image: url("../img/veryLarge.png")
+}
+
 /* board */
 #board {
   /* height: 24em; */
